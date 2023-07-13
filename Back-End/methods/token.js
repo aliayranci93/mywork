@@ -1,6 +1,6 @@
 
 
-exports.decode64 = () =>{
+exports.decode64 = (token) =>{
     let buffer = new Buffer.from(token, 'base64');
     let decodedToken = buffer.toString('ascii'); 
     return decodedToken;
