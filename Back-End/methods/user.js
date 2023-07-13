@@ -1,10 +1,11 @@
 //Database connection
+const {postgrepass} = require('../config.json');
 const Pool = require('pg').Pool
 const pool = new Pool({
   user: 'postgres',
   host: 'localhost',
   database: 'mywork',
-  password: 'password',
+  password: postgrepass,
   port: 5432,
 })
 
@@ -57,8 +58,9 @@ exports.deleteUser = (email) => {
               reject(err);
               return;
           }
-          resolve();
+          
         })
+        resolve();
       });
 }
 
@@ -74,3 +76,21 @@ exports.getAllUser = (req, res) => {
         })
     })
 }
+
+
+exports.getUsersEmails = () => {
+    return new Promise((resolve, reject) => {
+      let emails = [];
+      pool.query("SELECT email FROM accounts", [], (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          result.rows.forEach(element => {
+            emails.push(element["email"]);
+          });
+          resolve(emails);
+        }
+      });
+    });
+}
+

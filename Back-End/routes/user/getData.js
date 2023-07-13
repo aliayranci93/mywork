@@ -1,4 +1,4 @@
-const {jwt, jwtSecret} = require('../../server.js');
+const {jwt} = require('../../server.js');
 const {getUser} = require('../../methods/user.js');
 
 module.exports = {
@@ -16,16 +16,10 @@ module.exports = {
 
 
     //? giriş yapıldıktan sonra otomatik çekme
-    let token = req.cookies.jwt;
-    if(token){
-        jwt.verify(token, jwtSecret, async (err, decodedToken)=>{
-            if(err){
-                res.json(err);
-                return;
-            }
-            let result = await getUser(decodedToken.email);
-            res.json(result.rows[0]);
-        })
+    let email = req.headers.auth.split(' ')[0];
+    if(email){
+        let result = await getUser(email);
+        res.json(result.rows[0]);
     }else{
         res.json({message:"Not authorized"});
         return;
