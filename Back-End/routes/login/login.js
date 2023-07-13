@@ -1,6 +1,5 @@
 const { Pool, pool, jwt } = require("../../server.js");
-const {generateToken } = require("../../auth.js");
-const {encode64, decode64} = require('../../methods/token.js')
+const {encode64} = require('../../methods/token.js')
 const crypto = require('crypto')
 
 module.exports = {
