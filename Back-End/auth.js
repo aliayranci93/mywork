@@ -85,32 +85,3 @@ exports.userAuth = (req, res, next) => {
     return res.json({message: "Not authorized, token not available."});
   }
 };
-
-exports.generateTokenJWT = (res, secret, email) => {
-  pool.query("SELECT * FROM users WHERE email=$1", [email], (err, result)=>{
-    if(err){
-      console.log(err);
-      return;
-    }
-  })
-  const maxAge = 10 *60 *60;
-  const token = jwt.sign({ email: email, expireTime: Date.now() + expireDuration}, secret, {
-    expiresIn: maxAge,
-  });
-  return token;
-};
-
-exports.generateToken = (email, role) => {
-  let tokenString = `${Date.now() + 10 *1000}:${email}:${role}`;
-
-
-
-  let buffer = new Buffer.from(tokenString);
-  let encryptedToken = buffer.toString('base64');
-  console.log(encryptedToken);
-  return encryptedToken;
-}
-
-// İstek gönderirken kullanıcının emailini almak zorunda tokeni kontrol edecek fakat nasıl?
-//? cookie kaydetsem sadece email içerecek ve normal expiredate ile aynı olacak
-
