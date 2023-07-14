@@ -5,7 +5,7 @@ const fs = require('fs');
 
 //JSON WEB TOKEN
 const jwt = require('jsonwebtoken');
-const jwtSecret = '541657132c6ca0bf0672c3def16682ee44e6f8bfd417df755b5669d57ad7bd1e1422a7';
+const jwtSecret = 'MTY4OTE1MTQ2NTQ1NjpzYTpCYXNpYw==';
 const { adminAuth, userAuth } = require("./auth.js");
 const cookieParser = require("cookie-parser");
 app.use(cookieParser())
@@ -14,12 +14,13 @@ app.use(cookieParser())
 //? token fikri <10072023>*TOKEN=?<userid>&<time><random_values/w rule>
 
 //Database
+const {postgrepass} = require('./config.json');
 const Pool = require('pg').Pool
 const pool = new Pool({
   user: 'postgres',
   host: 'localhost',
   database: 'mywork',
-  password: 'password',
+  password: postgrepass,
   port: 5432,
 })
 
@@ -32,7 +33,6 @@ app.get('/status', function(req, res){
     const status = {
         "Status":"Running"
     }
-
     res.send(status);
 });
 

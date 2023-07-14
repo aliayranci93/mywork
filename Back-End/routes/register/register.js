@@ -1,14 +1,14 @@
 const {Pool, pool, jwt} = require('../../server.js');
-const {registerCookie} = require('../../auth.js');
+
+const {getUsersEmails} = require('../../methods/user.js');
 
 module.exports = {
     name:"register",
     execute: async (req, res) =>{
         //? email arama kısmı kaldırılabilir database error
-    let password = req.body.password=='' ? undefined: req.body.password;
-    let password2 = req.body.re_password=='' ? undefined: req.body.re_password;
+    let password = req.body.password =='' ? undefined: req.body.password;
+    let password2 = req.body.re_password =='' ? undefined: req.body.re_password;
     let email = req.body.email == '' ? undefined : req.body.email;
-    let emails = [];
 
     if(!email || !password){
         res.json({"message":"Fill the parameters"})
@@ -24,23 +24,7 @@ module.exports = {
 
     
     //Are email and username in use?
-    let query = "SELECT email FROM accounts";
-    function getUsersEmails() {
-        return new Promise((resolve, reject) => {
-          pool.query(query, [], (err, result) => {
-            if (err) {
-              reject(err);
-            } else {
-              result.rows.forEach(element => {
-                emails.push(element["email"]);
-              });
-              resolve();
-            }
-          });
-        });
-    }
-      
-    await getUsersEmails().catch(err => {
+    let emails = await getUsersEmails().catch(err => {
         console.log(err);
         return;
     })
@@ -54,18 +38,21 @@ module.exports = {
     
     //Inserting data to database
     query = "INSERT INTO accounts (email, password, role) VALUES ($1, $2, $3)"
-    pool.query(query, [email, password, "Basic"], (err)=>{
+    pool.query(query, [email, password, "Basic"], (err, result)=>{
         let respond;
         if(err){
             respond = {"register":"Failed", "message":"Database error!", "code":-4};
             console.log(err)
         }else{ 
             // Kullanıcı rollerini httpye kaydetme
-            registerCookie(res, jwt, email, "Basic")
+
             //
             respond = {"register":"Successful", "message":"User registered succesfully", "code":1};
         }
         
+        pool.query('INSERT INTO tokens (email) VALUES ($1)', [email], (err)=>{
+            console.log(err);
+        })
         pool.query('INSERT INTO users (email) VALUES ($1)', [email], (err)=>{
             console.log(err);
         })
