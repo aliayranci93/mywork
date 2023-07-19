@@ -2,16 +2,8 @@ const jwt = require("jsonwebtoken");
 
 const expireDuration = 1 *1000 //Change the first number (in seconds)
 
-//Database connection
-const {postgrepass} = require('./config.json');
-const Pool = require('pg').Pool
-const pool = new Pool({
-  user: 'postgres',
-  host: 'localhost',
-  database: 'mywork',
-  password: postgrepass,
-  port: 5432,
-})
+//Database
+const {pool} = require('./utils/connection.js');
 
 
 exports.adminAuth = (req, res, next) => {
@@ -26,6 +18,7 @@ exports.adminAuth = (req, res, next) => {
         console.log(err);
         return;
       }
+      if(!result.rows[0]) return res.json({message: "Token not found."});
       result = result.rows[0];
       let key = result.key;
 
@@ -62,8 +55,10 @@ exports.userAuth = (req, res, next) => {
         console.log(err);
         return;
       }
+      if(!result.rows[0]) return res.json({message: "Token not found."});
       result = result.rows[0];
       let key = result.key;
+
 
       jwt.verify(token, key, (err, decodedToken) =>{
         if(err){

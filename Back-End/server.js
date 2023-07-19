@@ -3,28 +3,18 @@ const bodyParser = require('body-parser');
 const app = express();
 const fs = require('fs');
 
+
 //JSON WEB TOKEN
 const jwt = require('jsonwebtoken');
-const jwtSecret = 'MTY4OTE1MTQ2NTQ1NjpzYTpCYXNpYw==';
 const { adminAuth, userAuth } = require("./auth.js");
-const cookieParser = require("cookie-parser");
-app.use(cookieParser())
-
-//! kullanıcı yetkisi /user | admin yetkisi /users
-//? token fikri <10072023>*TOKEN=?<userid>&<time><random_values/w rule>
+const { parse } = require('path');
+// const cookieParser = require("cookie-parser");
+// app.use(cookieParser())
 
 //Database
-const {postgrepass} = require('./config.json');
-const Pool = require('pg').Pool
-const pool = new Pool({
-  user: 'postgres',
-  host: 'localhost',
-  database: 'mywork',
-  password: postgrepass,
-  port: 5432,
-})
+// const {pool} = require('./utils/connection.js');
 
-module.exports = {Pool ,pool, jwt, jwtSecret}
+module.exports = { jwt}
 
 
 //TEST API
@@ -78,5 +68,24 @@ app.delete('/users/delete', adminAuth, routes.get('admin/deleteUser'));
 //Update User Info 
 app.patch('/user/update', userAuth, routes.get('user/updateData'))
 
+//.TODO listAll
+app.get('/todo/list', routes.get('todoUser/list'))
+
+//.TODO assign task
+app.patch('/todo/assign', userAuth, routes.get('todoUser/assign'))
+
+//.TODO unassign task
+app.patch('/todo/unassign', userAuth, routes.get('todoUser/unassign'))
+
+//.TODO change task status
+app.patch('/todo/change/status', userAuth, routes.get('todoUser/change/status'));
+
+//.TODO add comment for task 
+app.post('/todo/comment', userAuth, routes.get('todoUser/comment'))
+
+//.TODO createTask (ADMIN ONLY!)
+app.post('/todo/create', routes.get('todoAdmin/createTask'));
+
+app.get('/jira', routes.get('JIRA-ENT'));
 
 var server = app.listen(8081, ()=>{console.log("Server listening 127.0.0.1:8081")});
