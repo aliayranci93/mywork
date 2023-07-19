@@ -1,13 +1,5 @@
-//Database connection
-const {postgrepass} = require('../config.json');
-const Pool = require('pg').Pool
-const pool = new Pool({
-  user: 'postgres',
-  host: 'localhost',
-  database: 'mywork',
-  password: postgrepass,
-  port: 5432,
-})
+//Database
+const {pool, Pool} = require('../utils/connection.js');
 
 //! Burdaki fonksiyonlar tekli olarak export ediliyor. Kullanılmayacak dosyada hepsi barınmıyor.
 

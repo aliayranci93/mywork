@@ -1,6 +1,7 @@
-const { Pool, pool, jwt } = require("../../server.js");
+const { jwt } = require("../../server.js");
 const {encode64} = require('../../methods/token.js')
 const crypto = require('crypto')
+const {pool, Pool} = require('../../utils/connection.js');
 
 module.exports = {
   name: "login",
@@ -35,7 +36,7 @@ module.exports = {
               // const key = encode64(`${Date.now()}:${email}`);
 
               //token oluşturma
-              const token = jwt.sign({email: email, role: result.role}, key, {expiresIn: '30s'}) // default encoding hs256 expiresIn kısmı sabit 30sn 
+              const token = jwt.sign({email: email, role: result.role}, key, {expiresIn: '5m'}) // default encoding hs256 expiresIn kısmı sabit 30sn 
 
               pool.query('UPDATE tokens SET key=$1 WHERE email=$2', [key, email], (err)=>{
                 if(err){

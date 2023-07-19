@@ -1,25 +1,34 @@
-const { jwt, jwtSecret } = require("../../server.js");
+const { jwt} = require("../../server.js");
 const {getUser, updateUser} = require('../../methods/user.js');
+
+//Database
+const {pool, Pool} = require('../../utils/connection.js')
 
 //? tokenden email kontrol ediyorum ama sanki gereksiz gibi?? (kullanıcı kendi verisini güncelliyor)
 
 module.exports = {
   name: "user/updateData",
   execute: async (req, res) => {
-    let email = req.body.email == "" ? undefined : req.body.email;
-    let token = req.cookies.jwt;
+    //bu kontrol boşa yazıldı
+    let email = req.headers.auth.split(' ')[0];
+    // let token = req.headers.auth.split(' ')[1];
 
-    //jwt verify getData.js'de bulunuyor fakat işlevleri farklı
-    jwt.verify(token, jwtSecret, (err, decodedToken) => {
-      if (err) {
-        res.json(err);
-        return;
-      }
-      if (decodedToken.email != email) {
-        return;
-      }
-    });
+    // pool.query('SELECT key FROM tokens WHERE email=$1', [email], (err, result) =>{
+    //   let key = result.rows[0].key;
+      
+    //   jwt.verify(token, key, (err, decodedURL) => {
+    //     if(err){
+    //       console.log(err);
+    //       return;
+    //     }
 
+    //     if(decodedURL.email != email){
+    //       res.json({message: "This is not your email!"})
+    //     }
+
+    //   })
+
+    // })
     if (!email) {
       res.json({
         message: "Give an email adress to update user data.",
