@@ -69,22 +69,22 @@ app.delete('/users/delete', adminAuth, routes.get('admin/deleteUser'));
 app.patch('/user/update', userAuth, routes.get('user/updateData'))
 
 //.TODO listAll
-app.get('/todo/list', routes.get('todoUser/list'))
+//app.get('/todo/list', routes.get('todoUser/list'))
 
 //.TODO assign task
-app.patch('/todo/assign', userAuth, routes.get('todoUser/assign'))
+//app.patch('/todo/assign', userAuth, routes.get('todoUser/assign'))
 
 //.TODO unassign task
-app.patch('/todo/unassign', userAuth, routes.get('todoUser/unassign'))
+//app.patch('/todo/unassign', userAuth, routes.get('todoUser/unassign'))
 
 //.TODO change task status
-app.patch('/todo/change/status', userAuth, routes.get('todoUser/change/status'));
+//app.patch('/todo/change/status', userAuth, routes.get('todoUser/change/status'));
 
 //.TODO add comment for task 
-app.post('/todo/comment', userAuth, routes.get('todoUser/comment'))
+//app.post('/todo/comment', userAuth, routes.get('todoUser/comment'))
 
 //.TODO createTask (ADMIN ONLY!)
-app.post('/todo/create', routes.get('todoAdmin/createTask'));
+//app.post('/todo/create', routes.get('todoAdmin/createTask'));
 
 app.get('/jira', routes.get('JIRA-ENT'));
 
