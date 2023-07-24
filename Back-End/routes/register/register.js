@@ -1,4 +1,4 @@
-const {Pool, pool, jwt} = require('../../server.js');
+const {pool, Pool} = require('../../utils/connection.js');
 const {getUsersEmails} = require('../../methods/user.js');
 
 module.exports = {
