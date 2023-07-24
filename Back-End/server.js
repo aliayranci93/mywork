@@ -68,24 +68,44 @@ app.delete('/users/delete', adminAuth, routes.get('admin/deleteUser'));
 //Update User Info 
 app.patch('/user/update', userAuth, routes.get('user/updateData'))
 
-//.TODO listAll
-app.get('/todo/list', routes.get('todoUser/list'))
+// //.TODO listAll
+// app.get('/todo/list', routes.get('todoUser/list'))
 
-//.TODO assign task
-app.patch('/todo/assign', userAuth, routes.get('todoUser/assign'))
+// //.TODO assign task
+// app.patch('/todo/assign', userAuth, routes.get('todoUser/assign'))
 
-//.TODO unassign task
-app.patch('/todo/unassign', userAuth, routes.get('todoUser/unassign'))
+// //.TODO unassign task
+// app.patch('/todo/unassign', userAuth, routes.get('todoUser/unassign'))
 
-//.TODO change task status
-app.patch('/todo/change/status', userAuth, routes.get('todoUser/change/status'));
+// //.TODO change task status
+// app.patch('/todo/change/status', userAuth, routes.get('todoUser/change/status'));
 
-//.TODO add comment for task 
-app.post('/todo/comment', userAuth, routes.get('todoUser/comment'))
+// //.TODO add comment for task 
+// //app.post('/todo/comment', userAuth, routes.get('todoUser/comment'))
 
-//.TODO createTask (ADMIN ONLY!)
-app.post('/todo/create', routes.get('todoAdmin/createTask'));
+// //.TODO createTask (ADMIN ONLY!)
+// app.post('/todo/create', routes.get('todoAdmin/createTask'));
 
 app.get('/jira', routes.get('JIRA-ENT'));
+
+
+// // Contactus ListAll
+// app.get("/contactUs", contact);
+
+// //  Contactus ListAll id
+// app.delete("/contactUs/:id", contact_delete);
+
+// //Contactus ListAll Email
+// app.get("/contactUs/email", contact_email);
+
+// // Contactus ListAll Emil id
+// app.put("/contactUs/email/:id", contact_update_email);
+
+// // Taks listAll
+// app.get("/tasks/", tasks);
+
+// // Tasks ListAll id
+// app.get("/tasks/id", tasksById);
+
 
 var server = app.listen(8081, ()=>{console.log("Server listening 127.0.0.1:8081")});

@@ -1,5 +1,5 @@
 const express = require('express')
-const {pool ,Pool} = require('../connection.js')
+const {pool, Pool} = require('../../utils/connection.js');
 
 const app =express()
 app.use(express.json())
