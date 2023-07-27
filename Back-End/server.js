@@ -8,6 +8,9 @@ const fs = require('fs');
 const jwt = require('jsonwebtoken');
 const { adminAuth, userAuth } = require("./auth.js");
 const { parse } = require('path');
+
+
+
 // const cookieParser = require("cookie-parser");
 // app.use(cookieParser())
 
@@ -60,7 +63,6 @@ app.get('/users/all', adminAuth, routes.get('admin/getAllData'));
 app.get('/user/self', userAuth, routes.get('user/getData'));
 
 
-
 //! USE res.status and res.json!!!!!!! multiple sending responses with them!!
 //Delete User Info
 app.delete('/users/delete', adminAuth, routes.get('admin/deleteUser'));
@@ -68,44 +70,19 @@ app.delete('/users/delete', adminAuth, routes.get('admin/deleteUser'));
 //Update User Info 
 app.patch('/user/update', userAuth, routes.get('user/updateData'))
 
-// //.TODO listAll
-// app.get('/todo/list', routes.get('todoUser/list'))
-
-// //.TODO assign task
-// app.patch('/todo/assign', userAuth, routes.get('todoUser/assign'))
-
-// //.TODO unassign task
-// app.patch('/todo/unassign', userAuth, routes.get('todoUser/unassign'))
-
-// //.TODO change task status
-// app.patch('/todo/change/status', userAuth, routes.get('todoUser/change/status'));
-
-// //.TODO add comment for task 
-// //app.post('/todo/comment', userAuth, routes.get('todoUser/comment'))
-
-// //.TODO createTask (ADMIN ONLY!)
-// app.post('/todo/create', routes.get('todoAdmin/createTask'));
-
 app.get('/jira', routes.get('JIRA-ENT'));
 
 
-// // Contactus ListAll
-// app.get("/contactUs", contact);
+// Todo listAll and list all ıd
+app.get('/todo/list', routes.get('todo'));
+app.get('/todo/list/:id', routes.get('todo'));
 
-// //  Contactus ListAll id
-// app.delete("/contactUs/:id", contact_delete);
+// comment list 
+app.get('/todo/comment', routes.get('comment'));
+app.post('/todo/comment', routes.get('commentsAdd'));
 
-// //Contactus ListAll Email
-// app.get("/contactUs/email", contact_email);
-
-// // Contactus ListAll Emil id
-// app.put("/contactUs/email/:id", contact_update_email);
-
-// // Taks listAll
-// app.get("/tasks/", tasks);
-
-// // Tasks ListAll id
-// app.get("/tasks/id", tasksById);
+//comments delete
+app.delete('/todo/comment/:comment_id', routes.get('commenetDelete'));
 
 
-var server = app.listen(8081, ()=>{console.log("Server listening 127.0.0.1:8081")});
+var server = app.listen(3000, ()=>{console.log("Server listening 127.0.0.1:3000")});

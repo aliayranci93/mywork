@@ -1,12 +1,9 @@
-const express = require("express");
 const {pool, Pool} = require('../../utils/connection.js');
 
-const app = express();
-app.use(express.json());
-
-const PORT = 3000;
-
-exports.tasks = (req, res) => {
+module.exports = {
+  name: "todo",
+  execute: async (req, res) => {
+   //todo list all
   pool.query("SELECT * FROM todo", [], (err, result) => {
     if (err) {
       console.log(err);
@@ -15,21 +12,20 @@ exports.tasks = (req, res) => {
     console.log("conectted tasks...", result.rows);
     res.send(result.rows);
   });
-};
+  }
+  }
+// todo create 
+// exports.createTasks= (req, res) => {
+//   const { priority, title, description, status, assignee } = req.body;
 
-exports.tasksById =(req, res) => {
-  console.log("req.body", req.body);
-  const { id } = req.params;
-  pool.query("SELECT * FROM todo WHERE id = $1", [id], (err, result) => {
-    if (err) {
-      console.log(err);
-      return;
-    }
-    console.log("conectted tasks...", result.rows);
-    res.send(result.rows);
-  });
-};
+//   pool.query('INSERT INTO todo (priority,  description, status, assignee) VALUES ($1, $2, $3, $4, $5)', [priority,title,description, status, assignee])
+//     .then(() => {
+//       console.log("Task created successfully")
+//       res.status(201).json({ message: 'Task created successfully.' });
+//     })
+//     .catch((error) => {
+//       console.error(error);
+//       res.status(500).json({ message: 'An error occurred.' });
+//     });
+// };
 
-
- 
-  
