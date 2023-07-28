@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const fs = require('fs');
+const path = require('path')
 
 
 //JSON WEB TOKEN
@@ -14,16 +15,16 @@ const { parse } = require('path');
 //Database
 // const {pool} = require('./utils/connection.js');
 
-module.exports = { jwt}
+module.exports = { jwt }
 
 
 //TEST API
 
-app.get('/status', function(req, res){
-    const status = {
-        "Status":"Running"
-    }
-    res.send(status);
+app.get('/token', userAuth, function(req, res){
+  res.json({message:"Success", code: 1})
+});
+app.get('/admin', adminAuth, (req, res) => {
+  res.json({code: 1})
 });
 
 
@@ -53,11 +54,14 @@ app.post('/register', routes.get('register'));
 
 
 //Get All Users
-app.get('/users/all', adminAuth, routes.get('admin/getAllData'));
+app.get('/users/all', userAuth, routes.get('admin/getAllData'));
 
 
 //Get User Info (self request)
 app.get('/user/self', userAuth, routes.get('user/getData'));
+
+//Admin update user
+app.patch('/admin/updateUser', adminAuth, routes.get('admin/UpdateUser'));
 
 
 
@@ -69,7 +73,7 @@ app.delete('/users/delete', adminAuth, routes.get('admin/deleteUser'));
 app.patch('/user/update', userAuth, routes.get('user/updateData'))
 
 //.TODO listAll
-//app.get('/todo/list', routes.get('todoUser/list'))
+//app.get('/todo/list', userAuth, routes.get('todoUser/list'))
 
 //.TODO assign task
 //app.patch('/todo/assign', userAuth, routes.get('todoUser/assign'))
@@ -84,8 +88,9 @@ app.patch('/user/update', userAuth, routes.get('user/updateData'))
 //app.post('/todo/comment', userAuth, routes.get('todoUser/comment'))
 
 //.TODO createTask (ADMIN ONLY!)
-//app.post('/todo/create', routes.get('todoAdmin/createTask'));
+//app.post('/todo/admin/create', routes.get('todoAdmin/createTask'));
 
 app.get('/jira', routes.get('JIRA-ENT'));
 
-var server = app.listen(8081, ()=>{console.log("Server listening 127.0.0.1:8081")});
+app.use(express.static(path.resolve(__dirname + '../../Front-End')));
+var server = app.listen(3000, ()=>{console.log("Server listening 127.0.0.1:3000")});

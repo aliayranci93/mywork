@@ -1,0 +1,100 @@
+#mail::placeholder, #pw::placeholder, #name::placeholder, #pw_confirm::placeholder{
+    color:#C4C4C4;
+}
+body{
+    display: flex;
+    flex-direction: column;
+    background-image: linear-gradient(rgb(226, 191, 241),rgb(226, 191, 241));
+}
+
+#title{
+    font-family: Mohave;
+    font-size: 45px;
+    font-weight: 500;
+    line-height: 63px;
+    letter-spacing: 0em;
+    text-align: center;
+    color: #FFFFFF;
+    margin-top: 5rem;
+}
+
+input[type='password'] {
+   font-size: 1.2em;
+}
+
+.material-symbols-sharp{
+    position: absolute;
+    z-index: 2;
+    display: block;
+    width: 3.375rem;
+    height: 2.375rem;
+    line-height: 2.375rem;
+    text-align: center;
+    padding-top: 5px;
+    pointer-events: none;
+    color: #aaa;
+}
+
+.side_inner_top{
+    position: absolute;
+    width: 9rem;
+    left: -58.1px;
+    height: 37rem;
+    background: #B1E457;
+    transform: rotate(175deg);
+    z-index: 5;
+
+}
+.side_inner_bottom{
+    position: absolute;
+    top:33.2rem;
+    width: 7rem;
+    left:-119.7px;
+    height: 37rem;
+    background: #B1E457;
+    transform: rotate(25deg);
+    z-index: -1;
+
+}
+
+.side_outer_top{
+    position: absolute;
+    width: 9rem;
+    top:100px;
+    left: -2rem;
+    height: 32rem;
+    background: #8CA005;
+    transform: rotate(168deg);
+    z-index: -5;
+    
+
+}
+
+.side_outer_bottom{
+    position: absolute;
+    width: 9rem;
+    top:32.6rem;
+    left: -6.2rem;
+    height: 32rem;
+    background: #8CA005;
+    transform: rotate(30deg);
+    z-index: -5;
+}
+
+#log_container{
+    border-radius: 2rem;
+    background: #212936;
+    height: fit-content;
+    z-index: 10;
+    transition: 0.3s;
+}
+
+#warning{
+    display: none;
+}
+
+.card-body{padding: 3rem !important;}
+
+@media (max-width: 400px) {
+    .card-body{padding-left: 2rem !important; padding-right: 2rem !important;}
+}

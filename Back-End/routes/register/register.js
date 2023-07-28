@@ -8,16 +8,17 @@ module.exports = {
     let password = req.body.password =='' ? undefined: req.body.password;
     let password2 = req.body.re_password =='' ? undefined: req.body.re_password;
     let email = req.body.email == '' ? undefined : req.body.email;
+    let name = req.body.name == '' ? undefined : req.body.name;
 
     if(!email || !password){
-        res.json({"message":"Fill the parameters"})
+        res.json({message:"Fill the parameters"})
         return;
     }
     
     
     //Password Confirmation
     if(password != password2){
-        res.json({"register":"Failed", "message":"Passwords didn't match!", "code":-1});
+        res.json({message:"Passwords didn't match!", code:0});
         return;
     }
 
@@ -29,7 +30,7 @@ module.exports = {
     })
 
     if(emails.includes(`${email}`)){
-        res.json({"register":"Failed", "message":"Email already using!", "code":-3});
+        res.json({message:"Email already using!", code:0});
         return;
     }
     
@@ -40,19 +41,19 @@ module.exports = {
     pool.query(query, [email, password, "Basic"], (err, result)=>{
         let respond;
         if(err){
-            respond = {"register":"Failed", "message":"Database error!", "code":-4};
+            respond = {message:"Database error!", code:0};
             console.log(err)
         }else{ 
             // Kullanıcı rollerini httpye kaydetme
 
             //
-            respond = {"register":"Successful", "message":"User registered succesfully", "code":1};
+            respond = {message:"User registered succesfully", code:1};
         }
         
         pool.query('INSERT INTO tokens (email) VALUES ($1)', [email], (err)=>{
             console.log(err);
         })
-        pool.query('INSERT INTO users (email) VALUES ($1)', [email], (err)=>{
+        pool.query('INSERT INTO users (email, name) VALUES ($1, $2)', [email, name], (err)=>{
             console.log(err);
         })
 

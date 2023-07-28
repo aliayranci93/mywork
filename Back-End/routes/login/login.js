@@ -11,7 +11,19 @@ module.exports = {
     let buff = new Buffer.from(params, 'base64');
     let mail_password = buff.toString('ascii').split(':');
     let email = mail_password[0];
-    let password = mail_password[1]; 
+    let password = mail_password[1];
+    // API RESPONSE
+    if(email == '' || password == ''){
+      res.json({message:"Fill all fields!", code: 0})
+      return;
+    }
+    //email validation
+    // let pattern = /^[A-Z0-9._%+-]+@([A-Z0-9-]+\.)+[A-Z]{2,4}$/i;
+    // if(!pattern.test(email)){
+    //   res.json({message:"Please write a valid email!", code:0})
+    //   return;
+    // }
+
     pool.query(
         "SELECT * FROM accounts WHERE email=$1",
         [`${email}`],
@@ -24,6 +36,7 @@ module.exports = {
             if (!result) {
               res.json({
                 message: "No such account!",
+                code: 0
               });
               return;
             }
@@ -36,7 +49,8 @@ module.exports = {
               // const key = encode64(`${Date.now()}:${email}`);
 
               //token oluşturma
-              const token = jwt.sign({email: email, role: result.role}, key, {expiresIn: '5m'}) // default encoding hs256 expiresIn kısmı sabit 30sn 
+              const token = jwt.sign({email: email, role: result.role}, key, {expiresIn: '15m'}) // default encoding hs256 expiresIn kısmı sabit 30sn 
+
 
               pool.query('UPDATE tokens SET key=$1 WHERE email=$2', [key, email], (err)=>{
                 if(err){
@@ -44,10 +58,9 @@ module.exports = {
                     return;
                 }
               })
-              result["login"] = true;
-              res.send({token: token});
+              res.json({token: token, message:"Login Successful!", code: 1})
             } else {
-              let respond = { login: false };
+              let respond = { message: "Login Failed!", code: 0 };
               res.send(respond);
             }
           }

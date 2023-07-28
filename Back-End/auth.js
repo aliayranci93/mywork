@@ -18,20 +18,20 @@ exports.adminAuth = (req, res, next) => {
         console.log(err);
         return;
       }
-      if(!result.rows[0]) return res.json({message: "Token not found."});
+      if(!result.rows[0]) return res.json({message: "Token not found.", code:-1});
       result = result.rows[0];
       let key = result.key;
 
       jwt.verify(token, key, (err, decodedToken) =>{
         if(err){
-          return res.json({message: "Token expired."});
+          return res.json({message: "Token expired.", code:-1});
         }
         
         if(decodedToken.email != email){
-          return res.json({message: "Not authorized."});
+          return res.json({message: "Not authorized.", code:-1});
         }else{
           if(decodedToken.role != 'Admin'){
-            return res.json({message: "Not authorized."});
+            return res.json({message: "Not authorized.", code:-1});
           }else{
             next()
           }
@@ -39,7 +39,7 @@ exports.adminAuth = (req, res, next) => {
       })
     })
   } else{
-    return res.json({message: "Not authorized, token not available."});
+    return res.json({message: "Not authorized, token not available.", code:-1});
   }
 };
 
@@ -55,21 +55,21 @@ exports.userAuth = (req, res, next) => {
         console.log(err);
         return;
       }
-      if(!result.rows[0]) return res.json({message: "Token not found."});
+      if(!result.rows[0]) return res.json({message: "Token not found.", code:-1});
       result = result.rows[0];
       let key = result.key;
 
 
       jwt.verify(token, key, (err, decodedToken) =>{
         if(err){
-          return res.json({message: "Token expired."});
+          return res.json({message: "Token expired.", code:-1});
         }
         
         if(decodedToken.email != email){
-          return res.json({message: "Not authorized."});
+          return res.json({message: "Not authorized.", code:-1});
         }else{
-          if(decodedToken.role != 'Basic'){
-            return res.json({message: "Not authorized."});
+          if(decodedToken.role != 'Basic' && decodedToken.role != 'Admin'){
+            return res.json({message: "Not authorized.", code:-1});
           }else{
             next()
           }
@@ -77,6 +77,6 @@ exports.userAuth = (req, res, next) => {
       })
     })
   } else{
-    return res.json({message: "Not authorized, token not available."});
+    return res.json({message: "Not authorized, token not available.", code:-1});
   }
 };
