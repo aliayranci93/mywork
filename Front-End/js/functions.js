@@ -1,7 +1,7 @@
 function checkToken(){
     $.ajax({
-        type:'GET',
-        url:'/token',
+        type:'POST',
+        url:'/refreshToken',
         headers:{
             "auth": sessionStorage.email + " " + sessionStorage.token
         },
@@ -9,6 +9,8 @@ function checkToken(){
             if(res.code == -1){
                 window.document.location.href = "../login.html"
             }
+
+            sessionStorage.setItem('token', res.token)
             return;
         }
     })
@@ -67,4 +69,8 @@ async function getAllUsers(){
             }
         })
     })
+}
+
+function refreshToken(){
+
 }

@@ -1,4 +1,4 @@
-const {getAllUser} = require('../../methods/user.js');
+const {getAllUser} = require('../../../methods/user.js');
 
 module.exports = {
     name: "admin/getAllData",

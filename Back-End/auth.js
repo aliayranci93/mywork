@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const expireDuration = 1 *1000 //Change the first number (in seconds)
 
 //Database
-const {pool} = require('./utils/connection.js');
+const {pool, Pool} = require('./utils/connection.js');
 
 
 exports.adminAuth = (req, res, next) => {
@@ -33,6 +33,7 @@ exports.adminAuth = (req, res, next) => {
           if(decodedToken.role != 'Admin'){
             return res.json({message: "Not authorized.", code:-1});
           }else{
+            //req.auth = generateToken(email);
             next()
           }
         }
@@ -62,6 +63,27 @@ exports.userAuth = (req, res, next) => {
 
       jwt.verify(token, key, (err, decodedToken) =>{
         if(err){
+          //token expire kısmı
+          // pool.query('SELECT refresh_token, key FROM tokens WHERE email=$1', [email], (err, result) => {
+          //   if(err){
+          //     console.log(err);
+          //     return;
+          //   }
+          //   let refreshToken = result.rows[0].refresh_token;
+          //   let key = result.rows[0].key;
+          //   if(!refreshToken){
+          //     return res.json({message: "Token expired.", code:-1});
+          //   }
+
+            // jwt.verify(refreshToken, key, (err, decodedRefreshToken) => {
+            //   if(err){
+            //     console.log(err);
+            //     return
+            //   }
+            //   dec
+            // })
+
+          // })
           return res.json({message: "Token expired.", code:-1});
         }
         
@@ -71,6 +93,7 @@ exports.userAuth = (req, res, next) => {
           if(decodedToken.role != 'Basic' && decodedToken.role != 'Admin'){
             return res.json({message: "Not authorized.", code:-1});
           }else{
+            //req.token = generateToken(email);
             next()
           }
         }
@@ -80,3 +103,17 @@ exports.userAuth = (req, res, next) => {
     return res.json({message: "Not authorized, token not available.", code:-1});
   }
 };
+
+
+// function generateToken(email){
+//   const key = crypto.createHash('sha256').update(`${Date.now()}:${email}`, 'utf-8').digest('hex');
+//   const token = jwt.sign({email: email, role: result.role}, key, {expiresIn: '15m'})
+
+//   // bu api olumlu cevaplanırsa yapması lazım
+//   pool.query('UPDATE tokens SET key=$1 WHERE email=$2', [key, email], (err)=>{
+//     if(err){
+//       console.log(err);
+//       return;
+//     }
+//   })
+// }

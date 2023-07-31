@@ -1,5 +1,5 @@
-const {pool, Pool} = require('../../utils/connection.js');
-const {getUsersEmails} = require('../../methods/user.js');
+const {pool, Pool} = require('../../../utils/connection.js');
+const {getUsersEmails} = require('../../../methods/user.js');
 
 module.exports = {
     name:"register",

@@ -1,5 +1,5 @@
-const {jwt} = require('../../server.js');
-const {getUser} = require('../../methods/user.js');
+const {jwt} = require('../../../server.js');
+const {getUser} = require('../../../methods/user.js');
 
 module.exports = {
     name: "user/getData",

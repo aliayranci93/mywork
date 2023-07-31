@@ -1,4 +1,4 @@
-const { pool, Pool } = require("../../utils/connection.js")
+const { pool, Pool } = require("../../../utils/connection.js")
 
 module.exports = {
     name: "admin/UpdateUser",

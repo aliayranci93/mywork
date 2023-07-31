@@ -1,4 +1,4 @@
-const {getUser, deleteUser} = require('../../methods/user.js');
+const {getUser, deleteUser} = require('../../../methods/user.js');
 
 module.exports = {
     name:"admin/deleteUser",

@@ -3,6 +3,15 @@ const bodyParser = require('body-parser');
 const app = express();
 const fs = require('fs');
 const path = require('path')
+//web socket
+const {WebSocketServer} = require('ws');
+const wss = new WebSocketServer({port: 3001});
+
+wss.on("connection", (ws) => {
+  ws.on('message', (data) => {
+    console.log(`recieved: ${data}`);
+  })
+})
 
 
 //JSON WEB TOKEN
@@ -20,9 +29,9 @@ module.exports = { jwt }
 
 //TEST API
 
-app.get('/token', userAuth, function(req, res){
-  res.json({message:"Success", code: 1})
-});
+// app.get('/token', userAuth, function(req, res){
+//   res.json({message:"Success", code: 1})
+// });
 app.get('/admin', adminAuth, (req, res) => {
   res.json({code: 1})
 });
@@ -40,12 +49,31 @@ const routes = new Map;
 
 fs.readdirSync('./routes').forEach(folder => {
     let files = fs.readdirSync(`./routes/${folder}`).filter(file => file.endsWith('.js'));
+    
+    //alt klasör yoksa
     for (let file of files){
         let route = require(`./routes/${folder}/${file}`);
         routes.set(route.name, route.execute);
     }
+
+
+    //alt klasör varsa
+    fs.readdirSync(`./routes/${folder}`).forEach(subFolder => {
+      //ve js dosyası değilse
+      if(!subFolder.endsWith('.js')){
+        let subFiles = fs.readdirSync(`./routes/${folder}/${subFolder}`).filter(file => file.endsWith('.js'));
+      for(let file of subFiles){
+        let route = require(`./routes/${folder}/${subFolder}/${file}`);
+        routes.set(route.name, route.execute);
+      }
+      }
+      
+})
 })
 console.log(routes)
+
+//refresh access token
+app.post('/refreshToken', routes.get('refreshToken'));
 
 //Login
 app.post('/login', routes.get('login'));

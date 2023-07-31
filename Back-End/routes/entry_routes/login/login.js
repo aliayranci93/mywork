@@ -1,7 +1,7 @@
-const { jwt } = require("../../server.js");
-const {encode64} = require('../../methods/token.js')
+const { jwt } = require("../../../server.js");
+const {encode64} = require('../../../methods/token.js')
 const crypto = require('crypto')
-const {pool, Pool} = require('../../utils/connection.js');
+const {pool, Pool} = require('../../../utils/connection.js');
 
 module.exports = {
   name: "login",
@@ -49,16 +49,16 @@ module.exports = {
               // const key = encode64(`${Date.now()}:${email}`);
 
               //token oluşturma
-              const token = jwt.sign({email: email, role: result.role}, key, {expiresIn: '15m'}) // default encoding hs256 expiresIn kısmı sabit 30sn 
+              const accessToken = jwt.sign({email: email, role: result.role}, key, {expiresIn: '15m'}) // default encoding hs256 expiresIn kısmı sabit 30sn 
+              const refreshToken = jwt.sign({email: email}, key, {expiresIn: '1d'})
 
-
-              pool.query('UPDATE tokens SET key=$1 WHERE email=$2', [key, email], (err)=>{
+              pool.query('UPDATE tokens SET key=$1, refresh_token=$2 WHERE email=$3', [key, refreshToken, email], (err)=>{
                 if(err){
                     console.log(err);
                     return;
                 }
               })
-              res.json({token: token, message:"Login Successful!", code: 1})
+              res.json({token: accessToken, message:"Login Successful!", code: 1})
             } else {
               let respond = { message: "Login Failed!", code: 0 };
               res.send(respond);
