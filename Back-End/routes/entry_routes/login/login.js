@@ -1,7 +1,7 @@
-const { jwt } = require("../../server.js");
-const {encode64} = require('../../methods/token.js')
+const { jwt } = require("../../../server.js");
+const {encode64} = require('../../../methods/token.js')
 const crypto = require('crypto')
-const {pool, Pool} = require('../../utils/connection.js');
+const {pool, Pool} = require('../../../utils/connection.js');
 
 module.exports = {
   name: "login",
@@ -11,7 +11,19 @@ module.exports = {
     let buff = new Buffer.from(params, 'base64');
     let mail_password = buff.toString('ascii').split(':');
     let email = mail_password[0];
-    let password = mail_password[1]; 
+    let password = mail_password[1];
+    // API RESPONSE
+    if(email == '' || password == ''){
+      res.json({message:"Fill all fields!", code: 0})
+      return;
+    }
+    //email validation
+    // let pattern = /^[A-Z0-9._%+-]+@([A-Z0-9-]+\.)+[A-Z]{2,4}$/i;
+    // if(!pattern.test(email)){
+    //   res.json({message:"Please write a valid email!", code:0})
+    //   return;
+    // }
+
     pool.query(
         "SELECT * FROM accounts WHERE email=$1",
         [`${email}`],
@@ -24,6 +36,7 @@ module.exports = {
             if (!result) {
               res.json({
                 message: "No such account!",
+                code: 0
               });
               return;
             }
@@ -36,18 +49,18 @@ module.exports = {
               // const key = encode64(`${Date.now()}:${email}`);
 
               //token oluşturma
-              const token = jwt.sign({email: email, role: result.role}, key, {expiresIn: '5m'}) // default encoding hs256 expiresIn kısmı sabit 30sn 
+              const accessToken = jwt.sign({email: email, role: result.role}, key, {expiresIn: '15m'}) // default encoding hs256 expiresIn kısmı sabit 30sn 
+              const refreshToken = jwt.sign({email: email}, key, {expiresIn: '1d'})
 
-              pool.query('UPDATE tokens SET key=$1 WHERE email=$2', [key, email], (err)=>{
+              pool.query('UPDATE tokens SET key=$1, refresh_token=$2 WHERE email=$3', [key, refreshToken, email], (err)=>{
                 if(err){
                     console.log(err);
                     return;
                 }
               })
-              result["login"] = true;
-              res.send({token: token});
+              res.json({token: accessToken, message:"Login Successful!", code: 1})
             } else {
-              let respond = { login: false };
+              let respond = { message: "Login Failed!", code: 0 };
               res.send(respond);
             }
           }

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>ADMIN PANEL</title>
+        <link rel="stylesheet" href="./css/dashboard.css">
+    </head>
+    <body>
+        <header>
+            
+        </header>
+
+        <section>
+            <table class="user-table">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Job</th>
+                    <th>Email</th>
+                </tr>
+                
+            </table>
+            <table class="todo-table">
+
+            </table>
+        </section>
+
+    </body>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    <script src="./js/functions.js"></script>
+    <script>
+        $(document).ready(async function (){
+            await checkAdmin();
+            $('#demo').text('ADMIN GİRİŞ YAPTI');
+            let users_data = await getAllUsers();
+            let usersTable = $('.user-table')
+            users_data.forEach(user => {
+                usersTable.append(`\
+                <tr class="item">
+                    <th id="${user.id}" class="id element">${user.id}</th>
+                    <th id="${user.id}" class="name element">${user.name}</th>
+                    <th id="${user.id}" class="phone element">${user.phone}</th>
+                    <th id="${user.id}" class="job element">${user.job}</th>
+                    <th id="${user.id}" class="email element">${user.email}</th>
+                    <th><button class="user-buttons  edit-button" type="button" id="${user.id}">EDIT</button><button class="user-buttons delete-button" type="button" id="${user.id}">DELETE</button></th>
+                </tr>
+                `);
+            })
+        })
+
+
+        $('.user-table').on('click', '.edit-button', function (){
+            $(this).html('SAVE')
+            $(this).attr('class', $(this).attr('class').split(' ')[1] + 'save-button')
+
+            let id = $(this).attr('id');
+            let elements = $(`th[id=${id}]`)
+            elements.each(function (){
+                let input =  $('<input type="text" class="input-element">');
+                input.attr('placeholder', ($(this).text().trim()));
+                $(this).html(input);
+            })
+        })
+
+        $('.user-table').on('click', '.save-button', function (){
+            let id = $(this).attr('id');
+            let data = {
+                id: id,
+                name:$(`#${id}.name input`).val() == '' ? $(`#${id} .name input`).prop('placeholder'): $(`#${id}.name input`).val(),
+                phone:$(`#${id}.phone input`).val() == '' ? $(`#${id} .phone input`).prop('placeholder'): $(`#${id}.phone input`).val(),
+                job:$(`#${id}.job input`).val() == '' ? $(`#${id} .job input`).prop('placeholder'): $(`#${id}.job input`).val(),
+                //email damlanın account değiştirme kodu sonrası email değişecek
+            }
+            $.ajax({
+                type:'PATCH',
+                url:'/admin/updateUser',
+                headers:{
+                    "auth":sessionStorage.email + " " + sessionStorage.token
+                },
+                data:JSON.stringify(data),
+                processData: false,
+                contentType:'application/json',
+                success: function (res){
+                    window.document.location.href = '/dashboard.html'
+                }
+            })
+        })
+
+        $('.user-table').on('click', '.delete-button', function (){
+            let id = $(this).attr('id');
+            let data = {
+                email:$(`#${id}.email`).text()
+            }
+            $.ajax({
+                type:'DELETE',
+                url:'/users/delete',
+                headers:{
+                    "auth":sessionStorage.email + " " + sessionStorage.token
+                },
+                data:JSON.stringify(data),
+                processData: false,
+                contentType:'application/json',
+                success: function (res){
+                    window.document.location.href = '/dashboard.html'
+                }
+            })
+        })
+
+
+
+    </script>
+</html>

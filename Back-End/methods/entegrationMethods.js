@@ -1,7 +1,18 @@
 const { pool, Pool } = require("../utils/connection");
 
 exports.insertData = (data) => { // json type data
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
+        if(await isTodoExist(data.id)){
+            pool.query('UPDATE todo SET priority=$1, title=$2, description=$3, status=$4, assignee=$5, created_at=$6, updated_at=$7, project=$8, key=$9 WHERE id=$10',
+            [ data.priority, data.title, data.summary, data.status, data.assignee, new Date(data.createdAt), new Date(data.updatedAt), data.project, data.key, data.id],
+            (err)=>{
+                if(err){
+                    console.log(err);
+                    reject(err);
+                }
+                resolve();
+            })
+        }
         pool.query('INSERT INTO todo (id, priority, title, description, status, assignee, created_at, updated_at, project, key)\
                     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)',
                     [data.id, data.priority, data.title, data.summary, data.status, data.assignee, new Date(data.createdAt), new Date(data.updatedAt), data.project, data.key],
@@ -33,6 +44,21 @@ exports.createProject = (projectID, projectName) => {
                 reject(err);
             }
             resolve();
+        })
+    })
+}
+
+
+const isTodoExist = (todoID) => {
+    return new Promise((resolve, reject) => {
+        pool.query('SELECT * FROM todo WHERE id=$1', [todoID], (err, result) => {
+            if(err){
+                reject(false);
+            }
+            if(result.rows[0]){
+                resolve(true)
+            }
+            reject(false);
         })
     })
 }
