@@ -14,18 +14,3 @@ module.exports = {
   });
   }
   }
-// todo create 
-// exports.createTasks= (req, res) => {
-//   const { priority, title, description, status, assignee } = req.body;
-
-//   pool.query('INSERT INTO todo (priority,  description, status, assignee) VALUES ($1, $2, $3, $4, $5)', [priority,title,description, status, assignee])
-//     .then(() => {
-//       console.log("Task created successfully")
-//       res.status(201).json({ message: 'Task created successfully.' });
-//     })
-//     .catch((error) => {
-//       console.error(error);
-//       res.status(500).json({ message: 'An error occurred.' });
-//     });
-// };
-

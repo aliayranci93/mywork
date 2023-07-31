@@ -77,9 +77,19 @@ app.get('/jira', routes.get('JIRA-ENT'));
 app.get('/todo/list', routes.get('todo'));
 app.get('/todo/list/:id', routes.get('todo'));
 
+//create tasks User
+app.post('/todo/create', routes.get('todo/createTask'));
+// create tasks Admin
+app.post('/todo/admin/create', routes.get('todoAdmin/createTask'));
+// delete tasks Admin
+app.delete('/todo/admin/delete/:id', routes.get('todoAdmin/deleteTask'));
+
+//change status
+app.patch('/todo/change/status', routes.get('todo/change/status'));
+
 // comment list 
 app.get('/todo/comment', routes.get('comment'));
-app.post('/todo/comment', routes.get('commentsAdd'));
+app.post('/todo/comment', routes.get('commentTasksAdd'));
 
 //comments delete
 app.delete('/todo/comment/:comment_id', routes.get('commenetDelete'));
