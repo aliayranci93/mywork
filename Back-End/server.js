@@ -83,6 +83,8 @@ app.post('/todo/create', routes.get('todo/createTask'));
 app.post('/todo/admin/create', routes.get('todoAdmin/createTask'));
 // delete tasks Admin
 app.delete('/todo/admin/delete/:id', routes.get('todoAdmin/deleteTask'));
+// update tasks Adimin
+app.put('/todo/admin/update/:id', routes.get('todoAdmin/updateTask'));
 
 //change status
 app.patch('/todo/change/status', routes.get('todo/change/status'));
