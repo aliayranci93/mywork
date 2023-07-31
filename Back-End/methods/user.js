@@ -38,17 +38,23 @@ exports.updateUser = (user, data) =>{
 
 exports.deleteUser = (email) => {
     return new Promise((resolve, reject) => {
-        const query = 'DELETE FROM users WHERE email = $1';
-        pool.query(query, [email], (err) => {
+      //users tablosundan silme
+        pool.query('DELETE FROM users WHERE email=$1', [email], (err) => {
           if (err) {
             reject(err);
-            return;
           }
         });
-        pool.query('DELETE FROM accounts WHERE email =$1', [email], (err)=>{
+        //accounts tablosundan silme
+        pool.query('DELETE FROM tokens WHERE email=$1', [email], (err)=>{
           if(err){
               reject(err);
-              return;
+          }
+          
+        })
+        //tokens tablosundan silme
+        pool.query('DELETE FROM accounts WHERE email=$1', [email], (err)=>{
+          if(err){
+              reject(err);
           }
           
         })
@@ -62,6 +68,7 @@ exports.getAllUser = (req, res) => {
         pool.query(query, [], (err, result)=>{
             if(err){
                 console.log(err);
+                res.json({code: -1})
                 return;
             }
             res.send(result.rows);
@@ -86,3 +93,4 @@ exports.getUsersEmails = () => {
     });
 }
 
+//silinecek delete acoounts kısmı

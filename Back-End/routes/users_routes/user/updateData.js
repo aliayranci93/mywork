@@ -1,15 +1,15 @@
-const { jwt} = require("../../server.js");
-const {getUser, updateUser} = require('../../methods/user.js');
+const { jwt} = require("../../../server.js");
+const {getUser, updateUser} = require('../../../methods/user.js');
 
 //Database
-const {pool, Pool} = require('../../utils/connection.js')
+const {pool, Pool} = require('../../../utils/connection.js')
 
 //? tokenden email kontrol ediyorum ama sanki gereksiz gibi?? (kullanıcı kendi verisini güncelliyor)
 
 module.exports = {
   name: "user/updateData",
   execute: async (req, res) => {
-    //bu kontrol boşa yazıldı
+    
     let email = req.headers.auth.split(' ')[0];
     // let token = req.headers.auth.split(' ')[1];
 
