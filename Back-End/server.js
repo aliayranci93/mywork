@@ -3,6 +3,9 @@ const bodyParser = require('body-parser');
 const app = express();
 const fs = require('fs');
 const path = require('path')
+const multer = require('multer');
+
+const upload = multer();
 //web socket
 const {WebSocketServer} = require('ws');
 const wss = new WebSocketServer({port: 3001});
@@ -10,30 +13,33 @@ const wss = new WebSocketServer({port: 3001});
 
 
 // -------------------web socket-----------------------------
-const clients = []; 
+const clients = [];
 
-function broadcast(message){
-  clients.forEach(client => {
-    if(client.readyState === 1){ // connected: 1 -- disconnected: 3
-      console.log(client.readyState);
-      client.send(message);
-    }
-  })
-}
+// event handler
+const socketEvents = new Map;
+fs.readdirSync("./socket/events").forEach(eventFile => {
+  let event = require(`./socket/events/${eventFile}`);
+  socketEvents.set(event.name, event.execute);
+})
+let socketEvents_keys = Array.from(socketEvents.keys())
+
 //connect
 wss.on("connection", (ws) => {
-  console.log('Connection Successful');
   clients.push(ws);
 
-  ws.on('message', data => {
-    //console.log(data.toString());
-    broadcast(data.toString())
+  //Ex. message data => {name: "dashboard/refreshUsers"}
+  ws.on('message', async data => {
+    let message = JSON.parse(data.toString()); // it takes buffer so parse to json
+    if(socketEvents_keys.includes(message.name)){ // if there is a key for sent message
+      let response = await socketEvents.get(message.name)(ws, message); // give funtion parameters (ws, message) => function event(ws, message)
+      clients.forEach(client => {
+        client.send(response); // gönderirken {name:"", data:} şeklinde gönderiyorum ki cevabı alan neyi yenileyeceğini anlasın
+      })
+    }
   })
 
   //disconnect
-  ws.on('close', () => {
-    console.log('Client disconnected')
-  });
+  ws.on('close', () => {  });
 });
 
 
@@ -104,6 +110,7 @@ fs.readdirSync('./routes').forEach(folder => {
 })
 })
 console.log(routes)
+console.log(socketEvents)
 
 //refresh access token
 app.post('/refreshToken', routes.get('refreshToken'));
@@ -134,7 +141,7 @@ app.patch('/user/update', userAuth, routes.get('user/updateData'))
 
 
 
-app.get('/jira', routes.get('JIRA-ENT'));
+app.post('/jira', userAuth, upload.single('file'), routes.get('JIRA-ENT'));
 
 
 

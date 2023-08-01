@@ -4,10 +4,11 @@ const { pool, Pool } = require("../../../utils/connection")
 module.exports = {
     name:"refreshToken",
     execute: async (req, res) =>{
-        let email = req.headers.auth.split(' ')[0];
-        let accessToken = req.headers.auth.split(' ')[1];
+        let email = req.headers.auth.split(' ')[0] ===  'undefined' ? undefined: req.headers.auth.split(' ')[0];
+        let accessToken = req.headers.auth.split(' ')[1] ===  'undefined' ? undefined: req.headers.auth.split(' ')[1];;
         if(!email || !accessToken){
-            return
+            res.json({code: -1});
+            return;
         }
         let result = await new Promise((resolve, reject) => {
             pool.query('SELECT refresh_token, key FROM tokens WHERE email=$1', [email], (err, result) => {
@@ -18,6 +19,7 @@ module.exports = {
                 resolve(results);
             })
         })
+        
 
         jwt.verify(result.refresh_token, result.key, async (err, decodedToken) => {
             if(err){
