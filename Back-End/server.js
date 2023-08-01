@@ -3,15 +3,51 @@ const bodyParser = require('body-parser');
 const app = express();
 const fs = require('fs');
 const path = require('path')
+const multer = require('multer');
+
+const upload = multer();
 //web socket
 const {WebSocketServer} = require('ws');
 const wss = new WebSocketServer({port: 3001});
 
-wss.on("connection", (ws) => {
-  ws.on('message', (data) => {
-    console.log(`recieved: ${data}`);
-  })
+
+
+// -------------------web socket-----------------------------
+const clients = [];
+
+// event handler
+const socketEvents = new Map;
+fs.readdirSync("./socket/events").forEach(eventFile => {
+  let event = require(`./socket/events/${eventFile}`);
+  socketEvents.set(event.name, event.execute);
 })
+let socketEvents_keys = Array.from(socketEvents.keys())
+
+//connect
+wss.on("connection", (ws) => {
+  clients.push(ws);
+
+  //Ex. message data => {name: "dashboard/refreshUsers"}
+  ws.on('message', async data => {
+    let message = JSON.parse(data.toString()); // it takes buffer so parse to json
+    if(socketEvents_keys.includes(message.name)){ // if there is a key for sent message
+      let response = await socketEvents.get(message.name)(ws, message); // give funtion parameters (ws, message) => function event(ws, message)
+      clients.forEach(client => {
+        client.send(response); // gönderirken {name:"", data:} şeklinde gönderiyorum ki cevabı alan neyi yenileyeceğini anlasın
+      })
+    }
+  })
+
+  //disconnect
+  ws.on('close', () => {  });
+});
+
+
+//on error
+wss.on('error', (error) => {
+  console.log(error);
+})
+//--------------------------------------------------------------
 
 
 //JSON WEB TOKEN
@@ -74,6 +110,7 @@ fs.readdirSync('./routes').forEach(folder => {
 })
 })
 console.log(routes)
+console.log(socketEvents)
 
 //refresh access token
 app.post('/refreshToken', routes.get('refreshToken'));
@@ -104,7 +141,7 @@ app.patch('/user/update', userAuth, routes.get('user/updateData'))
 
 
 
-app.get('/jira', routes.get('JIRA-ENT'));
+app.post('/jira', userAuth, upload.single('file'), routes.get('JIRA-ENT'));
 
 
 

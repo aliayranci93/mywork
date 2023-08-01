@@ -9,7 +9,7 @@ module.exports = {
       console.log(err);
       return;
     }
-    console.log("conectted tasks...", result.rows);
+    //console.log("conectted tasks...", result.rows); server her başladığında konsola düşüyor ?
     res.send(result.rows);
   });
   }
