@@ -7,11 +7,41 @@ const path = require('path')
 const {WebSocketServer} = require('ws');
 const wss = new WebSocketServer({port: 3001});
 
-wss.on("connection", (ws) => {
-  ws.on('message', (data) => {
-    console.log(`recieved: ${data}`);
+
+
+// -------------------web socket-----------------------------
+const clients = []; 
+
+function broadcast(message){
+  clients.forEach(client => {
+    if(client.readyState === 1){ // connected: 1 -- disconnected: 3
+      console.log(client.readyState);
+      client.send(message);
+    }
   })
+}
+//connect
+wss.on("connection", (ws) => {
+  console.log('Connection Successful');
+  clients.push(ws);
+
+  ws.on('message', data => {
+    //console.log(data.toString());
+    broadcast(data.toString())
+  })
+
+  //disconnect
+  ws.on('close', () => {
+    console.log('Client disconnected')
+  });
+});
+
+
+//on error
+wss.on('error', (error) => {
+  console.log(error);
 })
+//--------------------------------------------------------------
 
 
 //JSON WEB TOKEN
