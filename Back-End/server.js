@@ -190,7 +190,7 @@ app.post('/contact/info/send', routes.get('contact/contactSend'))
 
 app.get('/main/news', routes.get('mainMenu/getNews'));
 
-app.get('/main/search_task', routes.get('mainMenu/taskSearch'));
+/* app.get('/main/search_task', routes.get('mainMenu/taskSearch')); */
 
 app.post('/main/add_news', routes.get('mainMenu/addNews'))
 
