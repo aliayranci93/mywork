@@ -9,7 +9,7 @@ module.exports = {
   try {
     const result = await pool.query('UPDATE todo SET  priority=$1, title=$2, description=$3, status=$4, assignee=$5, updated_at=$6, key=$7, project=$8 WHERE id = $9 ' , [priority,title,description, status, assignee, new Date().toUTCString(), key, project, id]);
         if (result.rows.length === 0) {
-      return res.status(404).json({ message: 'task updated.' });
+      return res.status.json({ message: 'task updated.' });
     }
     res.json(result.rows[0]);
   } catch (err) {

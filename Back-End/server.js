@@ -118,12 +118,13 @@ app.post('/todo/create', routes.get('todo/createTask'));
 app.post('/todo/admin/create', routes.get('todoAdmin/createTask'));
 // delete tasks Admin
 app.delete('/todo/admin/delete/:id', routes.get('todoAdmin/deleteTask'));
-// update tasks Adimin
+// update tasks Admin
 app.put('/todo/admin/update/:id', routes.get('todoAdmin/updateTask'));
 
-//change status
-app.patch('/todo/change/status', routes.get('todo/change/status'));
-
+// change status
+app.put('/todo/change/status/:id', routes.get('change/status'));
+// assign task
+app.put('/todo/assign', routes.get('todo/assign'));
 
 // comment list 
 app.get('/todo/comment', routes.get('comment'));
@@ -131,7 +132,8 @@ app.post('/todo/comment', routes.get('commentTasksAdd'));
 
 //comments delete
 app.delete('/todo/comment/:comment_id', routes.get('commenetDelete'));
-
+//comment update
+app.put('/todo/comment/update/:comment_id', routes.get('commentUpdate'));
 
 
 

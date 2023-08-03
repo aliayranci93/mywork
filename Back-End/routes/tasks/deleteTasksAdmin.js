@@ -5,7 +5,7 @@ module.exports = {
     execute: async (req, res) => {
       const { id } = req.params;
       pool.query('DELETE FROM todo WHERE id = $1', [id], (error, results) => {
-        if (error) {
+       if (error) {
           res.status(500).json({ message: 'An error occurred.' });
         }
         console.log("Task deleted..");
