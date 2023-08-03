@@ -125,6 +125,7 @@ app.post('/register', routes.get('register'));
 app.get('/users/all', userAuth, routes.get('admin/getAllData'));
 
 
+
 //Get User Info (self request)
 app.get('/user/self', userAuth, routes.get('user/getData'));
 
@@ -175,6 +176,23 @@ app.put('/todo/comment/update/:comment_id', routes.get('commentUpdate'));
 
 
 app.use(express.static(path.resolve(__dirname + '../../Front-End')));
+
+
+
+
+app.patch('/contact/info/set', routes.get('contact/setContactInfo'))
+
+app.get('/contact/map/get', routes.get('contact/getMap'))
+
+app.get('/contact/info/get', routes.get('contact/getContact'))
+
+app.post('/contact/info/send', routes.get('contact/contactSend'))
+
+app.get('/main/news', routes.get('mainMenu/getNews'));
+
+app.get('/main/search_task', routes.get('mainMenu/taskSearch'));
+
+app.post('/main/add_news', routes.get('mainMenu/addNews'))
 
 
 
