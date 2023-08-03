@@ -19,8 +19,10 @@ module.exports = {
                 resolve(results);
             })
         })
-        
-
+        if(!result){
+            res.json({code: -1})
+            return;
+        }
         jwt.verify(result.refresh_token, result.key, async (err, decodedToken) => {
             if(err){
                 //token geçerliliği bitmişse(yeniden login olmalı)

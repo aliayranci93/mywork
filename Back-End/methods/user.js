@@ -3,6 +3,9 @@ const {pool, Pool} = require('../utils/connection.js');
 
 //! Burdaki fonksiyonlar tekli olarak export ediliyor. Kullanılmayacak dosyada hepsi barınmıyor.
 
+
+//TODO htmlde ID: kısmı aç id yi ordan al değişiklikleri yap
+//TODO getuser updateUser düzenlenecek
 exports.getUser = (email) =>{
     return new Promise((resolve, reject) => {
         const query = 'SELECT * FROM users WHERE email = $1';
@@ -36,35 +39,32 @@ exports.updateUser = (user, data) =>{
     })
 }
 
-exports.deleteUser = (email) => {
+exports.deleteUser = (id) => {
     return new Promise((resolve, reject) => {
-      //users tablosundan silme
-        pool.query('DELETE FROM users WHERE email=$1', [email], (err) => {
-          if (err) {
-            reject(err);
+
+        //tokens tablosundan silme (foreign key var)
+        pool.query('DELETE FROM tokens WHERE account_id=$1', [id], (err)=>{
+          if(err){
+            console.log(err)
+              reject(err);
           }
-        });
+          pool.query('DELETE FROM accounts WHERE id=$1', [id], (err)=>{
+            if(err){
+              console.log(err)
+                reject(err);
+            }
+            
+          })
+        })
         //accounts tablosundan silme
-        pool.query('DELETE FROM tokens WHERE email=$1', [email], (err)=>{
-          if(err){
-              reject(err);
-          }
-          
-        })
-        //tokens tablosundan silme
-        pool.query('DELETE FROM accounts WHERE email=$1', [email], (err)=>{
-          if(err){
-              reject(err);
-          }
-          
-        })
+        
         resolve();
       });
 }
 
 exports.getAllUser = (req, res) => {
     return new Promise((resolve, reject)=>{
-        let query = "SELECT * FROM users"
+        let query = "SELECT * FROM accounts"
         pool.query(query, [], (err, result)=>{
             if(err){
                 console.log(err);

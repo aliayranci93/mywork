@@ -12,6 +12,10 @@ message pops up.
 only chars then appropriate error message pops up.
 7. For now since the application is not linked to a database you can't sign up!
 It will always give an error message!*/
+
+//websocket 
+const ws = new WebSocket('ws://localhost:3001'); 
+
 $(function(){
     
     var txt;
@@ -50,6 +54,7 @@ $(function(){
                         return;
                     }
                     window.document.location.href = "/login.html"
+                    ws.send(JSON.stringify({name: "dashboard/refreshUsers"}));
                 }
             })
         //     //all fields are filled

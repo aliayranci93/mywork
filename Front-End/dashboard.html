@@ -41,7 +41,8 @@
     integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 <script src="./js/functions.js"></script>
 <script>
-    const ws = new WebSocket('ws://localhost:3001'); // Replace with your WebSocket server URL
+    //websocket 
+    const ws = new WebSocket('ws://localhost:3001'); 
     $(document).ready(async function () {
         await checkAdmin();
         updateTable();
@@ -112,7 +113,7 @@
     $('.user-table').on('click', '.delete-button', function () {
         let id = $(this).attr('id');
         let data = {
-            email: $(`#${id}.email`).text()
+            id: id
         }
         $.ajax({
             type: 'DELETE',
@@ -124,7 +125,11 @@
             processData: false,
             contentType: 'application/json',
             success: function (res) {
-                //window.document.location.href = '/dashboard.html'
+                let message = {
+                    name: "dashboard/refreshUsers"
+                }
+                ws.send(JSON.stringify(message));
+                console.log(res)
             }
         })
     })
