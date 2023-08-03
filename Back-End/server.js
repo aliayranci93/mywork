@@ -53,7 +53,7 @@ app.post('/register', routes.get('register'));
 
 
 //Get All Users
-app.get('/users/all', adminAuth, routes.get('admin/getAllData'));
+app.get('/users/all', routes.get('admin/getAllData'));
 
 
 //Get User Info (self request)
@@ -88,4 +88,19 @@ app.patch('/user/update', userAuth, routes.get('user/updateData'))
 
 app.get('/jira', routes.get('JIRA-ENT'));
 
-var server = app.listen(8081, ()=>{console.log("Server listening 127.0.0.1:8081")});
+app.patch('/contact/info/set', routes.get('contact/setContactInfo'))
+
+app.get('/contact/map/get', routes.get('contact/getMap'))
+
+app.get('/contact/info/get', routes.get('contact/getContact'))
+
+app.post('/contact/info/send', routes.get('contact/contactSend'))
+
+app.get('/main/news', routes.get('mainMenu/getNews'));
+
+app.get('/main/search_task', routes.get('mainMenu/taskSearch'));
+
+app.post('/main/add_news', routes.get('mainMenu/addNews'))
+
+
+var server = app.listen(3000, ()=>{console.log("Server listening 127.0.0.1:3000")});
