@@ -71,6 +71,19 @@ async function getAllUsers(){
     })
 }
 
-function refreshToken(){
-
+async function updateTable(){
+    let users_data = await getAllUsers();
+        let usersTable = $('.user-table')
+        users_data.forEach(user => {
+            usersTable.append(`\
+                <tr class="item">
+                    <th id="${user.id}" class="id element">${user.id}</th>
+                    <th id="${user.id}" class="name element">${user.name}</th>
+                    <th id="${user.id}" class="phone element">${user.phone}</th>
+                    <th id="${user.id}" class="job element">${user.job}</th>
+                    <th id="${user.id}" class="email element">${user.email}</th>
+                    <th><button class="user-buttons  edit-button" type="button" id="${user.id}">EDIT</button><button class="user-buttons delete-button" type="button" id="${user.id}">DELETE</button></th>
+                </tr>
+                `);
+        })
 }

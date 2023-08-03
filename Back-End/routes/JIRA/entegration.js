@@ -9,7 +9,8 @@ module.exports = {
     execute: async (req, res) => {
         let dataArray = [];
         //ÖZEL GÖREV
-        let file = fs.readFileSync('./file.xml', 'utf-8');
+        //let file = fs.readFileSync('./file.xml', 'utf-8');
+        let file = req.file.buffer.toString('utf-8');
 
 
         const parser = new xml2js.Parser({

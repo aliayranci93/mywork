@@ -10,7 +10,7 @@ module.exports = {
         console.log(err);
         return;
       }
-      console.log("conectted task...", result.rows);
+      //console.log("conectted task...", result.rows);
       res.send(result.rows);
     });
 }}
