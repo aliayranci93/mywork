@@ -3,14 +3,14 @@ const xml2js = require('xml2js')
 const he = require('he')
 const {isProjectExist, createProject, insertData} = require('../../methods/entegrationMethods.js');
 
-//todo id'ler eşsiz gelecek tabloyu ona göre değiştir. xmlden okurken idleri al
 
 module.exports = {
     name:"JIRA-ENT",
     execute: async (req, res) => {
         let dataArray = [];
         //ÖZEL GÖREV
-        let file = fs.readFileSync('./file.xml', 'utf-8');
+        //let file = fs.readFileSync('./file.xml', 'utf-8');
+        let file = req.file.buffer.toString('utf-8');
 
 
         const parser = new xml2js.Parser({
