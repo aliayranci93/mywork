@@ -1,9 +1,7 @@
-const express = require("express");
-const bodyParser = require("body-parser");
+const express = require('express');
+const bodyParser = require('body-parser');
 const app = express();
-
-const fs = require("fs");
-
+const fs = require('fs');
 const path = require('path')
 const multer = require('multer');
 
@@ -52,14 +50,10 @@ wss.on('error', (error) => {
 //--------------------------------------------------------------
 
 
-
 //JSON WEB TOKEN
-const jwt = require("jsonwebtoken");
+const jwt = require('jsonwebtoken');
 const { adminAuth, userAuth } = require("./auth.js");
-
-
 const { parse } = require('path');
-
 
 
 
@@ -69,16 +63,6 @@ const { parse } = require('path');
 //Database
 // const {pool} = require('./utils/connection.js');
 
-module.exports = { jwt };
-
-//TEST API
-
-app.get("/status", function (req, res) {
-  const status = {
-    Status: "Running",
-  };
-  res.send(status);
-})
 module.exports = { jwt }
 
 
@@ -89,10 +73,10 @@ module.exports = { jwt }
 // });
 app.get('/admin', adminAuth, (req, res) => {
   res.json({code: 1})
-
 });
 
-app.use(bodyParser.json());
+
+app.use(bodyParser.json())
 app.use(
   bodyParser.urlencoded({
     extended: true,
@@ -100,7 +84,6 @@ app.use(
 )
 
 //Route Handler
-
 const routes = new Map;
 
 fs.readdirSync('./routes').forEach(folder => {
@@ -132,21 +115,14 @@ console.log(socketEvents)
 //refresh access token
 app.post('/refreshToken', routes.get('refreshToken'));
 
-
 //Login
-app.post("/login", routes.get("login"));
+app.post('/login', routes.get('login'));
 //Register
-app.post("/register", routes.get("register"));
+app.post('/register', routes.get('register'));
+
 
 //Get All Users
-
-app.get("/users/all", adminAuth, routes.get("admin/getAllData"));
-
-//Get User Info (self request)
-app.get("/user/self", userAuth, routes.get("user/getData"));
-
 app.get('/users/all', userAuth, routes.get('admin/getAllData'));
-
 
 
 //Get User Info (self request)
@@ -156,13 +132,12 @@ app.get('/user/self', userAuth, routes.get('user/getData'));
 app.patch('/admin/updateUser', adminAuth, routes.get('admin/UpdateUser'));
 
 
-
 //! USE res.status and res.json!!!!!!! multiple sending responses with them!!
 //Delete User Info
-app.delete("/users/delete", adminAuth, routes.get("admin/deleteUser"));
+app.delete('/users/delete', adminAuth, routes.get('admin/deleteUser'));
 
-//Update User Info
-app.patch("/user/update", userAuth, routes.get("user/updateData"));
+//Update User Info 
+app.patch('/user/update', userAuth, routes.get('user/updateData'))
 
 
 
@@ -203,57 +178,4 @@ app.use(express.static(path.resolve(__dirname + '../../Front-End')));
 
 
 
-
-app.patch('/contact/info/set', routes.get('contact/setContactInfo'))
-
-app.get('/contact/map/get', routes.get('contact/getMap'))
-
-app.get('/contact/info/get', routes.get('contact/getContact'))
-
-app.post('/contact/info/send', routes.get('contact/contactSend'))
-
-app.get('/main/news', routes.get('mainMenu/getNews'));
-
-/* app.get('/main/search_task', routes.get('mainMenu/taskSearch')); */
-
-
-//.TODO add comment for task
-//app.post('/todo/comment', userAuth, routes.get('todoUser/comment'))
-
-app.post('/main/add_news', routes.get('mainMenu/addNews'))
-
-
-
-
-//Update Account By Admin
-app.patch("/account/update", adminAuth, routes.get("admin/updateAccount"));
-
-//Update Account By Admin
-//app.patch("/account/update", userAuth, routes.get("user/updateAccount"));
-
-//Add Status By Admin
-app.post("/todo/status/add",adminAuth, routes.get("admin/addStatus"));
-//Update Status By Admin
-//app.patch("/todo/status/update",adminAuth, routes.get("admin/updateStatus"));
-//Delete Status By Admin
-app.delete("/todo/status/delete",adminAuth, routes.get("admin/deleteStatus"));
-//List Status By Admin
-app.get("/todo/status/list",adminAuth, routes.get("admin/listStatus"));
-
-//Create Project By Admin
-app.post("/todo/projects/create",adminAuth, routes.get("admin/createProject"));
-//Update Project By Admin
-//app.patch(
-//  "/todo/projects/update",
-//  adminAuth,
-//  routes.get("admin/updateProject")
-//);
-//Delete Project By Admin
-app.delete("/todo/projects/delete",adminAuth,routes.get("admin/deleteProject"));
-////List Projects By Admin
-app.get("/todo/projects/list", adminAuth, routes.get("admin/listProjects"));
-
-app.get("/jira", routes.get("JIRA-ENT"));
-
-var server = app.listen(3000, ()=>{console.log("Server listening 127.0.0.1:3000")})
-
+var server = app.listen(3000, ()=>{console.log("Server listening 127.0.0.1:3000")});
