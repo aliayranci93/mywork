@@ -4,7 +4,6 @@ const app = express();
 
 const fs = require("fs");
 
-const fs = require('fs');
 const path = require('path')
 const multer = require('multer');
 
@@ -58,7 +57,6 @@ wss.on('error', (error) => {
 const jwt = require("jsonwebtoken");
 const { adminAuth, userAuth } = require("./auth.js");
 
-const { parse } = require("path");
 
 const { parse } = require('path');
 
@@ -80,7 +78,7 @@ app.get("/status", function (req, res) {
     Status: "Running",
   };
   res.send(status);
-
+})
 module.exports = { jwt }
 
 
@@ -99,22 +97,9 @@ app.use(
   bodyParser.urlencoded({
     extended: true,
   })
-);
+)
 
 //Route Handler
-
-const routes = new Map();
-
-fs.readdirSync("./routes").forEach((folder) => {
-  let files = fs
-    .readdirSync(`./routes/${folder}`)
-    .filter((file) => file.endsWith(".js"));
-  for (let file of files) {
-    let route = require(`./routes/${folder}/${file}`);
-    routes.set(route.name, route.execute);
-  }
-});
-console.log(routes);
 
 const routes = new Map;
 
@@ -270,5 +255,5 @@ app.get("/todo/projects/list", adminAuth, routes.get("admin/listProjects"));
 
 app.get("/jira", routes.get("JIRA-ENT"));
 
-var server = app.listen(3000, ()=>{console.log("Server listening 127.0.0.1:3000")});
+var server = app.listen(3000, ()=>{console.log("Server listening 127.0.0.1:3000")})
 
