@@ -4,11 +4,11 @@ module.exports = {
     // User create tasks 
   name: "todo/createTask",
   execute: async (req, res) => {
-    const { priority, title, description, status, assignee, created_at,  key, project } = req.body;
+    const { title, description, created_at, priority_id, status_id, assignee_acc_id, project_id } = req.body;
     try {
-        const result = await pool.query('INSERT INTO todo (priority, title, description, status, assignee, created_at, key, project) VALUES ($1, $2, $3, $4, $5, $6, $7, $8 )', [priority,title,description, status, assignee, new Date().toUTCString(),  key, project])
+        const result = await pool.query('INSERT INTO tasks (title, description, created_at, priority_id, status_id, assignee_acc_id ,project_id) VALUES ($1, $2, $3, $4, $5, $6, $7)', [title,description, new Date().toUTCString(), priority_id, status_id, assignee_acc_id, project_id])
         console.log("Task created successfully", result.rows);
-        res.send(result.rows);
+        res.send(result.rows[0]);
 // res.json(result.rows[0]);
     } catch (err) {
       console.error('database error', err);

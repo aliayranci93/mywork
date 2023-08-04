@@ -8,7 +8,6 @@ module.exports = {
         console.log(err);
         return;
       }
-      console.log("conectted tasks...", result.rows);
       res.send(result.rows);
     });
   
