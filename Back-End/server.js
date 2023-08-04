@@ -8,6 +8,7 @@ const upload = multer();
 //web socket
 const {WebSocketServer} = require('ws');
 const wss = new WebSocketServer({port: 3001});
+const cors = require('cors');
 
 // -------------------web socket-----------------------------
 const clients = [];
@@ -58,6 +59,13 @@ const { parse } = require('path');
 // const {pool} = require('./utils/connection.js');
 
 module.exports = { jwt }
+
+
+
+
+app.use(cors({
+  origin: '*'
+}));
 
 //TEST API
 // app.get('/token', userAuth, function(req, res){
