@@ -5,8 +5,7 @@ module.exports = {
   name: "admin/updateStatus",
   execute: async (req, res) => {
     const { id, name, updated_by } = req.body;
-    console.log(adminAuth.auth);
-    console.log(updated_by);
+    //console.log(updated_by);
     try {
       const updateStatus = await pool.query(
         "UPDATE status SET name=$1,updated_at=$2,updated_by=$3 WHERE id=$4",
@@ -19,5 +18,3 @@ module.exports = {
     }
   },
 };
-
-//bitmedi
