@@ -64,7 +64,7 @@ exports.deleteUser = (email) => {
 
 exports.getAllUser = (req, res) => {
     return new Promise((resolve, reject)=>{
-        let query = "SELECT * FROM users"
+        let query = "SELECT * FROM accounts"
         pool.query(query, [], (err, result)=>{
             if(err){
                 console.log(err);
