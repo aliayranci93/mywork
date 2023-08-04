@@ -68,12 +68,12 @@ app.get('/admin', adminAuth, (req, res) => {
 });
 
 app.use(bodyParser.json())
+
 app.use(
   bodyParser.urlencoded({
     extended: true,
   })
 )
-
 //Route Handler
 const routes = new Map;
 fs.readdirSync('./routes').forEach(folder => {
@@ -106,6 +106,7 @@ app.post('/refreshToken', routes.get('refreshToken'));
 
 //Login
 app.post('/login', routes.get('login'));
+
 //Register
 app.post('/register', routes.get('register'));
 
@@ -129,28 +130,38 @@ app.post('/jira', userAuth, upload.single('file'), routes.get('JIRA-ENT'));
 
 // tasks listAll and list all ıd
 app.get('/todo/list', routes.get('todo'));
+
 app.get('/todo/list/:id', routes.get('todo'));
+
 //create tasks User
 app.post('/todo/create', routes.get('todo/createTask'));
+
 // create tasks Admin
 app.post('/todo/admin/create', routes.get('todoAdmin/createTask'));
+
 // delete tasks Admin
 app.delete('/todo/admin/delete/:id', routes.get('todoAdmin/deleteTask'));
+
 // update tasks Admin
 app.put('/todo/admin/update/:id', routes.get('todoAdmin/updateTask'));
+
 // change status
 app.put('/todo/change/status/:id', routes.get('change/status'));
+
 // assign task
 app.put('/todo/assign/:id', routes.get('todo/assign'));
 
-
 //comment
 app.get('/todo/comment', routes.get('comment'));
+
 // comment list 
 app.get('/todo/comment', routes.get('comment'));
+
 app.post('/todo/comment', routes.get('commentTasksAdd'));
+
 //comments delete
 app.delete('/todo/comment/:id', routes.get('commenetDelete'));
+
 //comment update
 app.put('/todo/comment/update/:id', routes.get('commentUpdate'));
 
@@ -181,27 +192,29 @@ app.patch("/account/update", adminAuth, routes.get("admin/updateAccount"));
 
 //Add Status By Admin
 app.post("/todo/status/add", adminAuth, routes.get("admin/addStatus"));
+
 //Update Status By Admin
 //app.patch("/todo/status/update",adminAuth, routes.get("admin/updateStatus"));
+
 //Delete Status By Admin
 app.delete("/todo/status/delete", adminAuth, routes.get("admin/deleteStatus"));
+
 //List Status By Admin
 app.get("/todo/status/list", routes.get("admin/listStatus"));
 
 //Create Project By Admin
 app.post("/todo/projects/create", adminAuth, routes.get("admin/createProject"));
+
 //Update Project By Admin
 //app.patch(
 //  "/todo/projects/update",
 //  adminAuth,
 //  routes.get("admin/updateProject")
 //);
+
 //Delete Project By Admin
-app.delete(
-  "/todo/projects/delete",
-  adminAuth,
-  routes.get("admin/deleteProject")
-);
+app.delete("/todo/projects/delete",adminAuth,routes.get("admin/deleteProject"));
+
 ////List Projects By Admin
 app.get("/todo/projects/list", adminAuth, routes.get("admin/listProjects"));
 
