@@ -3,7 +3,7 @@ const { pool, Pool } = require("../../utils/connection.js");
 module.exports = {
   name: "admin/updateAccount",
   execute: async (req, res) => {
-    let { password, email, role } = req.body;
+    const { password, email, role } = req.body;
     // res.json(email);
     //console.log(req.body);
     let queryUpdate = "UPDATE accounts SET password=$1,role=$3 WHERE email=$2";

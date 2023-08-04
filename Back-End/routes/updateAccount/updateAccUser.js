@@ -8,7 +8,7 @@ module.exports = {
     try {
       const query = "UPDATE accounts SET password=$1 WHERE email=$2";
       await pool.query(query, [password, email]);
-      res.json({ message: "HERE" });
+      res.json({ message: "accounts updated" });
     } catch (err) {
       res.status(500).json({ error: "there is a error" });
     }
