@@ -145,10 +145,9 @@ app.post('/jira', userAuth, upload.single('file'), routes.get('JIRA-ENT'));
 
 
 
-// Todo listAll and list all ıd
+// tasks listAll and list all ıd
 app.get('/todo/list', routes.get('todo'));
 app.get('/todo/list/:id', routes.get('todo'));
-
 //create tasks User
 app.post('/todo/create', routes.get('todo/createTask'));
 // create tasks Admin
@@ -157,20 +156,21 @@ app.post('/todo/admin/create', routes.get('todoAdmin/createTask'));
 app.delete('/todo/admin/delete/:id', routes.get('todoAdmin/deleteTask'));
 // update tasks Admin
 app.put('/todo/admin/update/:id', routes.get('todoAdmin/updateTask'));
-
 // change status
 app.put('/todo/change/status/:id', routes.get('change/status'));
 // assign task
-app.put('/todo/assign', routes.get('todo/assign'));
+app.put('/todo/assign/:id', routes.get('todo/assign'));
 
+
+//comment
+app.get('/todo/comment', routes.get('comment'));
 // comment list 
 app.get('/todo/comment', routes.get('comment'));
 app.post('/todo/comment', routes.get('commentTasksAdd'));
-
 //comments delete
-app.delete('/todo/comment/:comment_id', routes.get('commenetDelete'));
+app.delete('/todo/comment/:id', routes.get('commenetDelete'));
 //comment update
-app.put('/todo/comment/update/:comment_id', routes.get('commentUpdate'));
+app.put('/todo/comment/update/:id', routes.get('commentUpdate'));
 
 
 

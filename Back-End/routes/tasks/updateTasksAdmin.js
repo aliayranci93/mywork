@@ -5,11 +5,11 @@ module.exports = {
   name: "todoAdmin/updateTask",
   execute: async (req, res) => {
     const {id} =req.params;
-    const {priority, title, description, status, assignee, updated_at, key, project} = req.body;
+    const {title, description, updated_at, priority_id, status_id, assignee_acc_id, project_id} = req.body;
   try {
-    const result = await pool.query('UPDATE todo SET  priority=$1, title=$2, description=$3, status=$4, assignee=$5, updated_at=$6, key=$7, project=$8 WHERE id = $9 ' , [priority,title,description, status, assignee, new Date().toUTCString(), key, project, id]);
+    const result = await pool.query('UPDATE tasks SET title=$1, description=$2, updated_at=$3, priority_id=$4,status_id=$5, assignee_acc_id=$6, project_id=$7 WHERE id = $8 ' , [title,description, new Date().toUTCString(), priority_id, status_id, assignee_acc_id, project_id, id]);
         if (result.rows.length === 0) {
-      return res.status.json({ message: 'task updated.' });
+      return res.status({ message: 'task updated.' });
     }
     res.json(result.rows[0]);
   } catch (err) {
