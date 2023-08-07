@@ -243,6 +243,8 @@
                 <div class="people">
                     <p id="people_text">People</p>
                     <div id="person-list">
+                
+
                     </div>
                 </div>
             </div>
@@ -257,6 +259,7 @@
 <script src="./js/functions.js"></script>
 <script>
         $('document').ready(function (){
+
             checkToken();
             $.ajax({
                 type:'GET',
@@ -275,6 +278,7 @@
                 }
             })  
             
+
             // $.ajax({
             //     type:'GET',
             //     url:'/todo/list',
@@ -315,7 +319,13 @@
                     
             //     }
             // })
-        })
+        });
+
+
+
+
+
+
 
 
         // $('#demooo').on('click', function() {
