@@ -5,11 +5,12 @@ module.exports = {
   name: "todo/assign",
   execute: async (req, res) => {
     const {id} =req.params;
-    const {assignee, updated_at } = req.body;
+    const {assignee_acc_id, updated_at } = req.body;
   try {
-    const result = await pool.query('UPDATE tasks SET assignee_acc_id=$1 , updated_at=$2  WHERE id = $3 ' , [assignee, new Date().toUTCString(), id]);
+    const result = await pool.query('UPDATE tasks SET assignee_acc_id=$1 , updated_at=$2  WHERE id = $3 ' , [assignee_acc_id, new Date().toUTCString(), id]);
         if (result.rows.length === 0) {
-      return res.status(202).json( 'change assignee.' );
+      console.log("Change assignee successfully");
+      return res.status(202).json( { message: 'change assignee..' });
     }
     res.json(result.rows[0]);
   } catch (err) {
