@@ -263,23 +263,23 @@
 <script>
         $('document').ready(function (){
             checkToken();
-            // $.ajax({
-            //     type:'GET',
-            //     url:'/users/all',
-            //     headers:{
-            //         "auth": sessionStorage.getItem('email') + " " + sessionStorage.getItem('token')
-            //     },
-            //     success: function(res){
-            //         if(!res) return;
+            $.ajax({
+                type:'GET',
+                url:'/users/all',
+                headers:{
+                    "auth": sessionStorage.getItem('email') + " " + sessionStorage.getItem('token')
+                },
+                success: function(res){
+                    if(!res) return;
 
-            //         let list = $('#person-list');
-            //         list.html('');
+                    let list = $('#person-list');
+                    list.html('');
 
-            //         res.forEach(element => {
-            //             list.append('<p>'+ element.email + '</p>')
-            //         });
-            //     }
-            // })  
+                    res.forEach(element => {
+                        list.append('<p>'+ element.email + '</p>') // email getiriyorum çoğu isim boş diye değiştirebilirsiniz
+                    });
+                }
+            })  
             
             // $.ajax({
             //     type:'GET',
