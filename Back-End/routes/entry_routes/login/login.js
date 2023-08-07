@@ -58,7 +58,7 @@ module.exports = {
                     return;
                 }
               })
-              res.json({token: accessToken, message:"Login Successful!", code: 1})
+              res.json({token: accessToken, message:"Login Successful!", code: 1, id:result.id})
             } else {
               let respond = { message: "Login Failed!", code: 0 };
               res.send(respond);

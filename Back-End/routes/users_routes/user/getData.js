@@ -16,13 +16,23 @@ module.exports = {
 
 
     //? giriş yapıldıktan sonra otomatik çekme
-    let email = req.headers.auth.split(' ')[0];
-    if(email){
-        let result = await getUser(email);
-        res.json(result.rows[0]);
-    }else{
-        res.json({message:"Not authorized"});
-        return;
-    }
+    // let email = req.headers.auth.split(' ')[0];
+    // if(email){
+    //     let result = await getUser(email);
+    //     res.json(result.rows[0]);
+    // }else{
+    //     res.json({message:"Not authorized"});
+    //     return;
+    // }
+
+        let id = req.body.id;
+        if(!id){
+            res.json({code: -1});
+            return;
+        }else{
+            let result = await getUser(id);
+            res.json(result.rows[0]);
+        }
+
     }
 }

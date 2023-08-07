@@ -3,10 +3,13 @@ const {pool, Pool} = require('../utils/connection.js');
 
 //! Burdaki fonksiyonlar tekli olarak export ediliyor. Kullanılmayacak dosyada hepsi barınmıyor.
 
-exports.getUser = (email) =>{
+
+//TODO htmlde ID: kısmı aç id yi ordan al değişiklikleri yap
+//TODO getuser updateUser düzenlenecek
+exports.getUser = (id) =>{
     return new Promise((resolve, reject) => {
-        const query = 'SELECT * FROM users WHERE email = $1';
-        pool.query(query, [email], (err, result) => {
+        const query = 'SELECT * FROM accounts WHERE id = $1';
+        pool.query(query, [id], (err, result) => {
           if (err) {
             reject(err);
             return;
@@ -16,17 +19,18 @@ exports.getUser = (email) =>{
     });
 }
 
-exports.updateUser = (user, data) =>{
+exports.updateUser = (user, data) =>{ 
     user = user.rows[0];
     
-    let email = user.email;
+    let id = user.id;
+    // let email = user.email; email değiştirmiyorum
     let name = user.name == data.name || data.name == '' ? user.name : data.name;
     let phone= user.phone == data.phone || data.phone == '' ? user.phone : data.phone;
     let job = user.job == data.job || data.job == '' ? user.job : data.job;
     
     return new Promise((resolve, reject) => {
-        let query = "UPDATE users SET name=$1, phone=$2, job=$3 WHERE email=$4";
-        pool.query(query, [name, phone, job, email], (err)=>{
+        let query = "UPDATE accounts SET name=$1, phone=$2, job=$3 WHERE id=$4";
+        pool.query(query, [name, phone, job, id], (err)=>{
             if(err){
                 reject(err);
                 return;
@@ -36,28 +40,25 @@ exports.updateUser = (user, data) =>{
     })
 }
 
-exports.deleteUser = (email) => {
+exports.deleteUser = (id) => {
     return new Promise((resolve, reject) => {
-      //users tablosundan silme
-        pool.query('DELETE FROM users WHERE email=$1', [email], (err) => {
-          if (err) {
-            reject(err);
+
+        //tokens tablosundan silme (foreign key var)
+        pool.query('DELETE FROM tokens WHERE account_id=$1', [id], (err)=>{
+          if(err){
+            console.log(err)
+              reject(err);
           }
-        });
+          pool.query('DELETE FROM accounts WHERE id=$1', [id], (err)=>{
+            if(err){
+              console.log(err)
+                reject(err);
+            }
+            
+          })
+        })
         //accounts tablosundan silme
-        pool.query('DELETE FROM tokens WHERE email=$1', [email], (err)=>{
-          if(err){
-              reject(err);
-          }
-          
-        })
-        //tokens tablosundan silme
-        pool.query('DELETE FROM accounts WHERE email=$1', [email], (err)=>{
-          if(err){
-              reject(err);
-          }
-          
-        })
+        
         resolve();
       });
 }
