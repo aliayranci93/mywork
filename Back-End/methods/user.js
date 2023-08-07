@@ -6,10 +6,10 @@ const {pool, Pool} = require('../utils/connection.js');
 
 //TODO htmlde ID: kısmı aç id yi ordan al değişiklikleri yap
 //TODO getuser updateUser düzenlenecek
-exports.getUser = (email) =>{
+exports.getUser = (id) =>{
     return new Promise((resolve, reject) => {
-        const query = 'SELECT * FROM users WHERE email = $1';
-        pool.query(query, [email], (err, result) => {
+        const query = 'SELECT * FROM accounts WHERE id = $1';
+        pool.query(query, [id], (err, result) => {
           if (err) {
             reject(err);
             return;
@@ -19,17 +19,18 @@ exports.getUser = (email) =>{
     });
 }
 
-exports.updateUser = (user, data) =>{
+exports.updateUser = (user, data) =>{ 
     user = user.rows[0];
     
-    let email = user.email;
+    let id = user.id;
+    // let email = user.email; email değiştirmiyorum
     let name = user.name == data.name || data.name == '' ? user.name : data.name;
     let phone= user.phone == data.phone || data.phone == '' ? user.phone : data.phone;
     let job = user.job == data.job || data.job == '' ? user.job : data.job;
     
     return new Promise((resolve, reject) => {
-        let query = "UPDATE users SET name=$1, phone=$2, job=$3 WHERE email=$4";
-        pool.query(query, [name, phone, job, email], (err)=>{
+        let query = "UPDATE accounts SET name=$1, phone=$2, job=$3 WHERE id=$4";
+        pool.query(query, [name, phone, job, id], (err)=>{
             if(err){
                 reject(err);
                 return;

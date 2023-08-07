@@ -126,7 +126,7 @@ app.get('/users/all', userAuth, routes.get('admin/getAllData'));
 
 
 //Get User Info (self request)
-app.get('/user/self', userAuth, routes.get('user/getData'));
+app.post('/user/self', userAuth, routes.get('user/getData'));
 
 //Admin update user
 app.patch('/admin/updateUser', adminAuth, routes.get('admin/UpdateUser'));

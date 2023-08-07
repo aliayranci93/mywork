@@ -25,7 +25,6 @@ $(function(){
                     "Authorization": "Basic " + btoa(txt_mail + ':' + txt_pw)
                 },
                 success: function (res){
-                    console.log(res)
                     if(!res){
                         alert('System error!');
                         return;
@@ -38,6 +37,7 @@ $(function(){
                     }
                     sessionStorage.setItem('email', txt_mail);
                     sessionStorage.setItem('token', res.token);
+                    sessionStorage.setItem('id', res.id)
                     window.document.location.href = "http://127.0.0.1:3000/index.html"
                 }
             })

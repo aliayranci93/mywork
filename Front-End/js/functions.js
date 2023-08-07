@@ -17,9 +17,13 @@ function checkToken(){
 }
 
 function setPlaceholders(){ // for profile page
+    // GET POST olarak değiştirildi id yolluyoruz
     $.ajax({
-        type:'GET',
+        type:'POST',
         url:'/user/self',
+        data:JSON.stringify({id:sessionStorage.getItem('id')}),
+        processData: false,
+        contentType:'application/json',
         headers:{
             "auth": sessionStorage.email + " " + sessionStorage.token
         },
@@ -30,7 +34,6 @@ function setPlaceholders(){ // for profile page
             username.attr('placeholder', res.name);
             email.attr('placeholder', res.email);
             phone.attr('placeholder', res.phone);
-            
         }
     })
 }

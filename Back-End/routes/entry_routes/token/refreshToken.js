@@ -13,6 +13,7 @@ module.exports = {
         let result = await new Promise((resolve, reject) => {
             pool.query('SELECT refresh_token, key FROM tokens WHERE email=$1', [email], (err, result) => {
                 if(err){
+                  res.json({code: -1});
                   reject(err);
                 }
                 let results = result.rows[0];
@@ -33,9 +34,11 @@ module.exports = {
             let {role} = await new Promise((resolve, reject) => {
                 pool.query('SELECT role FROM accounts WHERE email=$1', [email], (err, result) =>{
                     if(err){
+                        res.json({code: -1});
                         reject(err)
                     }
                     if(!result.rows[0]){
+                        res.json({code: -1});
                         reject();
                     }
 
