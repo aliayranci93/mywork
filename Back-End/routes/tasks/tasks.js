@@ -4,12 +4,12 @@ module.exports = {
   name: "todo",
   execute: async (req, res) => {
    //todo list all
-  pool.query("SELECT * FROM todo", [], (err, result) => {
+   pool.query('SELECT * FROM tasks', [], (err, result) => {
     if (err) {
       console.log(err);
       return;
     }
-    //console.log("conectted tasks...", result.rows); server her başladığında konsola düşüyor ?
+    console.log("conectted tasks...", result.rows);
     res.send(result.rows);
   });
   }

@@ -243,11 +243,7 @@
                 <div class="people">
                     <p id="people_text">People</p>
                     <div id="person-list">
-                        <p>Cüneyt</p>
-                        <p>Bayram</p>
-                        <p>Ali</p>
-                        <p>Gökhan</p>
-                        <p>Yahya</p>
+                
                     </div>
                 </div>
             </div>
@@ -262,66 +258,101 @@
 <script src="./js/functions.js"></script>
 <script>
         $('document').ready(function (){
-            checkToken();
-            $.ajax({
-                type:'GET',
-                url:'/users/all',
-                headers:{
-                    "auth": sessionStorage.getItem('email') + " " + sessionStorage.getItem('token')
-                },
-                success: function(res){
-                    if(!res) return;
+            debugger;
+            //checkToken();
+//             $.ajax({
+//                 type:'GET',
+//                 url:'http://localhost:3000/users/all',
+//                 headers:{
+//                    "auth": "admin eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluIiwicm9sZSI6IkFkbWluIiwiaWF0IjoxNjkxMTUxMjg5LCJleHAiOjE2OTExNTIxODl9.IZmw1wTs4D5IxXG4szDl-WSAgOPEze8R8XyxQQNfdjE",
+//  "Accept": "*/*"
+     
+//                 },
+//                 success: function(res){
+//                     debugger;
+//                     if(!res) return;
 
-                    let list = $('#person-list');
-                    list.html('');
+//                     let list = $('#person-list');
+//                     list.html('');
 
-                    res.forEach(element => {
-                        list.append('<p>'+ element.email + '</p>')
-                    });
-                }
-            })  
+//                     res.forEach(element => {
+//                         list.append('<p>'+ element.email + '</p>')
+//                     });
+//                 }
+//             });  
+            $.ajax({ 
+    type: 'GET', 
+    url: 'http://localhost:3000/users/all', 
+    headers:{"auth": "admin eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluIiwicm9sZSI6IkFkbWluIiwiaWF0IjoxNjkxMTU0MTM3LCJleHAiOjE2OTExNTUwMzd9._4-ACSTKW_71_On6Y5KzJeqsi3p7p5dkSNbvepVeZBU",
+"Accept": "*/*"
+    },
+    dataType: 'json',
+    success: function (data) { 
+        debugger;
+        $.each(data, function(index, element) {
             
-            $.ajax({
-                type:'GET',
-                url:'/todo/list',
-                headers:{
-                    "auth": sessionStorage.getItem('email') + " " + sessionStorage.getItem('token')
-                },
-                success: function(res){
-                    if(!res) return;
-                    let table = $('.todo-container');
-                    table.html('');
-                    res.forEach(todo => {
-                        table.append(`\
-                        <div class="todo_element">
-                            <div class="radio_container">
-                                <span class="material-symbols-outlined">done</span>
-                            </div>
-                            <div class="progress_desc">
-                                <p>${todo.title}</p>
-                            </div>
-                            <div class="stat">
-                                <div class="status_text">
-                                    <div class="bullet"></div>
-                                    <p>${todo.status}</p>
-                                </div>
-                                <div class="date">
-                                    ${todo.created_at}
-                                </div>
-                            </div>
-                        </div>
+            let list = $('#person-list');
+               
+        list.append('<p>'+ element.email + '</p>')
+           debugger;
+        });
+    }
+});
+
+
+
+
+
+
+
+
+            
+            // $.ajax({
+            //     type:'GET',
+            //     url:'/todo/list',
+            //     headers:{
+            //         "auth": sessionStorage.getItem('email') + " " + sessionStorage.getItem('token')
+            //     },
+            //     success: function(res){
+            //         if(!res) return;
+            //         let table = $('.todo-container');
+            //         table.html('');
+            //         res.forEach(todo => {
+            //             table.append(`\
+            //             <div class="todo_element">
+            //                 <div class="radio_container">
+            //                     <span class="material-symbols-outlined">done</span>
+            //                 </div>
+            //                 <div class="progress_desc">
+            //                     <p>${todo.title}</p>
+            //                 </div>
+            //                 <div class="stat">
+            //                     <div class="status_text">
+            //                         <div class="bullet"></div>
+            //                         <p>${todo.status}</p>
+            //                     </div>
+            //                     <div class="date">
+            //                         ${todo.created_at}
+            //                     </div>
+            //                 </div>
+            //             </div>
                     
-                            `)
-                    })
-                    return
-                    //.container
-                    //.progress_desc > p
-                    //.status_text > p
-                    //.date
+            //                 `)
+            //         })
+            //         return
+            //         //.container
+            //         //.progress_desc > p
+            //         //.status_text > p
+            //         //.date
                     
-                }
-            })
-        })
+            //     }
+            // })
+        });
+
+
+
+
+
 
 
         // $('#demooo').on('click', function() {
