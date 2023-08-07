@@ -134,7 +134,7 @@
             
             $.ajax({
                 type:'PATCH',
-                url:'/user/update',
+                url:'http://localhost:3000/user/update',
                 headers:{
                     "auth":sessionStorage.email + " " + sessionStorage.token
                 },

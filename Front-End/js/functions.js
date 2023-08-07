@@ -1,7 +1,7 @@
 function checkToken(){
     $.ajax({
         type:'POST',
-        url:'/refreshToken',
+        url:'http://localhost:3000/refreshToken',
         headers:{
             "auth": sessionStorage.email + " " + sessionStorage.token
         },
@@ -20,7 +20,7 @@ function setPlaceholders(){ // for profile page
     // GET POST olarak değiştirildi id yolluyoruz
     $.ajax({
         type:'POST',
-        url:'/user/self',
+        url:'http://localhost:3000/user/self',
         data:JSON.stringify({id:sessionStorage.getItem('id')}),
         processData: false,
         contentType:'application/json',
@@ -41,7 +41,7 @@ async function checkAdmin(){
     return new Promise((resolve, reject) => {
         $.ajax({
             type:'GET',
-            url:'/admin',
+            url:'http://localhost:3000/admin',
             headers:{
                 "auth": sessionStorage.email + " " + sessionStorage.token
             },
@@ -60,7 +60,7 @@ async function getAllUsers(){
     return new Promise((resolve, reject) => {
         $.ajax({
             type:'GET',
-            url:'/users/all',
+            url:'http://localhost:3000/users/all',
             headers:{
                 "auth": sessionStorage.email + " " + sessionStorage.token
             },

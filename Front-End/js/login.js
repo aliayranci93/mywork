@@ -20,7 +20,7 @@ $(function(){
             //berkin
             $.ajax({
                 type:'POST',
-                url:'/login',
+                url:'http://localhost:3000/login',
                 headers:{
                     "Authorization": "Basic " + btoa(txt_mail + ':' + txt_pw)
                 },

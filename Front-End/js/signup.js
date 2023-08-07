@@ -38,7 +38,7 @@ $(function(){
         if(txt_mail!='' && txt_pw!='' && txt_name!='' && txt_conf_pw!='' ){
             $.ajax({
                 type:'POST',
-                url:'/register',
+                url:'http://localhost:3000/register',
                 data:JSON.stringify(data),
                 processData: false,
                 contentType:'application/json',

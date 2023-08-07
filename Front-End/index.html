@@ -243,11 +243,6 @@
                 <div class="people">
                     <p id="people_text">People</p>
                     <div id="person-list">
-                        <p>Cüneyt</p>
-                        <p>Bayram</p>
-                        <p>Ali</p>
-                        <p>Gökhan</p>
-                        <p>Yahya</p>
                     </div>
                 </div>
             </div>
@@ -265,7 +260,7 @@
             checkToken();
             $.ajax({
                 type:'GET',
-                url:'/users/all',
+                url:'http://localhost:3000/users/all',
                 headers:{
                     "auth": sessionStorage.getItem('email') + " " + sessionStorage.getItem('token')
                 },
@@ -273,7 +268,6 @@
                     if(!res) return;
 
                     let list = $('#person-list');
-                    list.html('');
 
                     res.forEach(element => {
                         list.append('<p>'+ element.email + '</p>') // email getiriyorum çoğu isim boş diye değiştirebilirsiniz
