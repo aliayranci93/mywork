@@ -8,7 +8,7 @@ module.exports = {
        if (error) {
           res.status(500).json({ message: 'An error occurred.' });
         }
-        console.log("Task deleted..");
+        console.log("Task deleted successfully..");
         res.json({ message: 'Task deleted successfully.' });
          
       })

@@ -8,7 +8,7 @@ module.exports = {
         try {
         const result = await pool.query('UPDATE tasks SET status_id= $1, updated_at=$2  WHERE id = $3' , [status_id, new Date().toUTCString(), id]);
         console.log("Change status successfully");
-        res.status(202).json({ message: 'change status..' });
+        res.status(202).json({ message: 'change status successfully..' });
         
         } catch (err) {
           console.error('database error', err);
