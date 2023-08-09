@@ -119,6 +119,7 @@
 
     <script src="./js/functions.js"></script>
     <script>
+        const ws = new WebSocket('ws://localhost:3001'); 
         $(document).ready(function (){
             checkToken();
             setPlaceholders();
@@ -126,13 +127,14 @@
 
         $('#btn').click(function (){
             let data = {
+                id: sessionStorage.getItem('id'),
                 name: $('#username').val() == '' ? $('#username').prop('placeholder') : $('#username').val(),
-                phone: $('#phone').val() == '' ? $('#phone').prop('placeholder') : $('#phone').val()
+                phone: $('#phone').val() == '' ? $('#phone').prop('placeholder') : $('#phone').val(),
             }
             
             $.ajax({
                 type:'PATCH',
-                url:'/user/update',
+                url:'http://localhost:3000/user/update',
                 headers:{
                     "auth":sessionStorage.email + " " + sessionStorage.token
                 },
@@ -140,6 +142,7 @@
                 processData: false,
                 contentType:'application/json',
                 success: function (res){
+                    ws.send(JSON.stringify({name: "dashboard/refreshUsers"})); // websockete yenileme isteği
                     window.document.location.href = '/profile_info.html'
                 }
             })

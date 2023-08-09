@@ -37,29 +37,36 @@ module.exports = {
 
     
     //Inserting data to database
-    query = "INSERT INTO accounts (email, password, role) VALUES ($1, $2, $3)"
-    pool.query(query, [email, password, "Basic"], (err, result)=>{
-        let respond;
+    query = "INSERT INTO accounts (email, password, role, name) VALUES ($1, $2, $3, $4)"
+    pool.query(query, [email, password, "Basic", name], (err)=>{
         if(err){
-            respond = {message:"Database error!", code:0};
+            res.json({message:"Database error!", code:0});
             console.log(err)
-        }else{ 
-            // Kullanıcı rollerini httpye kaydetme
-
-            //
-            respond = {message:"User registered succesfully", code:1};
+            return;
         }
+        // pool.query('INSERT INTO tokens (email, account_id) VALUES ($1, $2)', [email], (err) => {
+        //     if(err){
+        //         res.json({message:"Database error!", code:0});
+        //     }
+        //     res.json{message:"User registered succesfully", code:1};
+        // })
         
-        pool.query('INSERT INTO tokens (email) VALUES ($1)', [email], (err)=>{
-            console.log(err);
-        })
-        pool.query('INSERT INTO users (email, name) VALUES ($1, $2)', [email, name], (err)=>{
-            console.log(err);
-        })
+        //yeni girilen kaydın account idsi
+        pool.query('SELECT id FROM accounts WHERE email=$1', [email], (err, result) => {
+            if(err){
+                res.json({message:"Database error!", code:0});
+                return;
+            }
 
-        
-        res.send(respond);
-
+            pool.query('INSERT INTO tokens (email, account_id) VALUES ($1, $2)', [email, result.rows[0].id], (err) =>{
+                if(err){
+                    res.json({message:"Database error!", code:0});
+                    return;
+                }
+                res.json({message:"User registered succesfully", code:1});
+                return
+            })
+        })
     });
     }
 }

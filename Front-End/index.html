@@ -244,6 +244,7 @@
                     <p id="people_text">People</p>
                     <div id="person-list">
                 
+
                     </div>
                 </div>
             </div>
@@ -258,55 +259,26 @@
 <script src="./js/functions.js"></script>
 <script>
         $('document').ready(function (){
-            debugger;
-            //checkToken();
-//             $.ajax({
-//                 type:'GET',
-//                 url:'http://localhost:3000/users/all',
-//                 headers:{
-//                    "auth": "admin eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluIiwicm9sZSI6IkFkbWluIiwiaWF0IjoxNjkxMTUxMjg5LCJleHAiOjE2OTExNTIxODl9.IZmw1wTs4D5IxXG4szDl-WSAgOPEze8R8XyxQQNfdjE",
-//  "Accept": "*/*"
-     
-//                 },
-//                 success: function(res){
-//                     debugger;
-//                     if(!res) return;
 
-//                     let list = $('#person-list');
-//                     list.html('');
+            checkToken();
+            $.ajax({
+                type:'GET',
+                url:'http://localhost:3000/users/all',
+                headers:{
+                    "auth": sessionStorage.getItem('email') + " " + sessionStorage.getItem('token')
+                },
+                success: function(res){
+                    if(!res) return;
 
-//                     res.forEach(element => {
-//                         list.append('<p>'+ element.email + '</p>')
-//                     });
-//                 }
-//             });  
-            $.ajax({ 
-    type: 'GET', 
-    url: 'http://localhost:3000/users/all', 
-    headers:{"auth": "admin eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluIiwicm9sZSI6IkFkbWluIiwiaWF0IjoxNjkxMTU0MTM3LCJleHAiOjE2OTExNTUwMzd9._4-ACSTKW_71_On6Y5KzJeqsi3p7p5dkSNbvepVeZBU",
-"Accept": "*/*"
-    },
-    dataType: 'json',
-    success: function (data) { 
-        debugger;
-        $.each(data, function(index, element) {
+                    let list = $('#person-list');
+
+                    res.forEach(element => {
+                        list.append('<p>'+ element.email + '</p>') // email getiriyorum çoğu isim boş diye değiştirebilirsiniz
+                    });
+                }
+            })  
             
-            let list = $('#person-list');
-               
-        list.append('<p>'+ element.email + '</p>')
-           debugger;
-        });
-    }
-});
 
-
-
-
-
-
-
-
-            
             // $.ajax({
             //     type:'GET',
             //     url:'/todo/list',
@@ -348,6 +320,7 @@
             //     }
             // })
         });
+
 
 
 
