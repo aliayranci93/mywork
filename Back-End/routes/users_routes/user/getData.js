@@ -25,7 +25,7 @@ module.exports = {
     //     return;
     // }
 
-        let id = req.body.id;
+        let id = res.locals.accountID;
         if(!id){
             res.json({code: -1});
             return;
