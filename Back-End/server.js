@@ -185,8 +185,6 @@ app.post("/contact/info/send", routes.get("contact/contactSend"));
 
 app.get("/main/news", routes.get("mainMenu/getNews"));
 
-/* app.get('/main/search_task', routes.get('mainMenu/taskSearch')); */
-
 //.TODO add comment for task
 //app.post('/todo/comment', userAuth, routes.get('todoUser/comment'))
 
@@ -227,6 +225,16 @@ app.delete("/todo/projects/delete",adminAuth,routes.get("admin/deleteProject"));
 app.get("/todo/projects/list", adminAuth, routes.get("admin/listProjects"));
 
 app.get("/jira", routes.get("JIRA-ENT"));
+
+app.post("/forgot_password", routes.get("users_routes/user/sendConfirmationCode"));
+
+app.post("/verify_password", routes.get("users_routes/user/checkConfirmationCode"));
+
+app.get("/about_us/get_text", routes.get("about_us/getText"));
+
+app.patch("/about_us/update", routes.get("about_us/updateText"));
+
+app.get("/main/search_task", routes.get("mainMenu/taskSearch"));
 
 var server = app.listen(3000, () => {
   console.log("Server listening 127.0.0.1:3000");
