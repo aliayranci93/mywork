@@ -137,7 +137,7 @@ app.patch('/user/update', userAuth, routes.get('user/updateData'))
 app.post('/jira', userAuth, upload.single('file'), routes.get('JIRA-ENT'));
 
 // tasks listAll and list all ıd
-app.get('/todo/list', routes.get('todo'));
+app.get('/todo/list',  routes.get('todo'));
 
 app.get('/todo/list/:id', routes.get('todo'));
 
