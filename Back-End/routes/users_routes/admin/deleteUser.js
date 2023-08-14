@@ -3,7 +3,7 @@ const {getUser, deleteUser} = require('../../../methods/user.js');
 module.exports = {
     name:"admin/deleteUser",
     execute: async (req, res) => {
-        let id = req.body.id;
+        let id = res.locals.accountID;
     try {
       //id ile kontrol database hata vermiyor
       // const user = await getUser(id);

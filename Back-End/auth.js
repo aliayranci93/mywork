@@ -22,7 +22,7 @@ exports.adminAuth = (req, res, next) => {
       result = result.rows[0];
       let key = result.key;
 
-      jwt.verify(token, key, (err, decodedToken) =>{
+      jwt.verify(token, key, async (err, decodedToken) =>{
         if(err){
           return res.json({message: "Token expired.", code:-1});
         }
@@ -33,7 +33,15 @@ exports.adminAuth = (req, res, next) => {
           if(decodedToken.role != 'Admin'){
             return res.json({message: "Not authorized.", code:-1});
           }else{
-            //req.auth = generateToken(email);
+            res.locals.accountID = await new Promise((resolve, reject) => {
+              pool.query('SELECT id FROM accounts WHERE email=$1', [email], (err, result) => {
+                if(err){
+                  console.log(err);
+                  reject();
+                }
+                resolve(result.rows[0].id);
+              })
+            })
             next()
           }
         }
@@ -61,7 +69,7 @@ exports.userAuth = (req, res, next) => {
       let key = result.key;
 
 
-      jwt.verify(token, key, (err, decodedToken) =>{
+      jwt.verify(token, key, async (err, decodedToken) =>{
         if(err){
           //token expire kısmı
           // pool.query('SELECT refresh_token, key FROM tokens WHERE email=$1', [email], (err, result) => {
@@ -93,7 +101,15 @@ exports.userAuth = (req, res, next) => {
           if(decodedToken.role != 'Basic' && decodedToken.role != 'Admin'){
             return res.json({message: "Not authorized.", code:-1});
           }else{
-            //req.token = generateToken(email);
+            res.locals.accountID = await new Promise((resolve, reject) => {
+              pool.query('SELECT id FROM accounts WHERE email=$1', [email], (err, result) => {
+                if(err){
+                  console.log(err);
+                  reject();
+                }
+                resolve(result.rows[0].id);
+              })
+            })
             next()
           }
         }

@@ -4,8 +4,6 @@ const {pool, Pool} = require('../utils/connection.js');
 //! Burdaki fonksiyonlar tekli olarak export ediliyor. Kullanılmayacak dosyada hepsi barınmıyor.
 
 
-//TODO htmlde ID: kısmı aç id yi ordan al değişiklikleri yap
-//TODO getuser updateUser düzenlenecek
 exports.getUser = (id) =>{
     return new Promise((resolve, reject) => {
         const query = 'SELECT * FROM accounts WHERE id = $1';

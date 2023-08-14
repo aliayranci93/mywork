@@ -9,7 +9,7 @@ const {pool, Pool} = require('../../../utils/connection.js')
 module.exports = {
   name: "user/updateData",
   execute: async (req, res) => {
-    let id = req.body.id; //id sessionStorage üzerinden geliyor
+    let id = res.locals.accountID; //id sessionStorage üzerinden geliyor
     if (!id) {
       res.json({
         message: "Give an id adress to update user data.",
