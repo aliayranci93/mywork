@@ -139,7 +139,7 @@ app.patch("/user/update", userAuth, routes.get("user/updateData"));
 app.post("/jira", userAuth, upload.single("file"), routes.get("JIRA-ENT"));
 
 // tasks listAll and list all ıd
-app.get("/todo/list", routes.get("todo"));
+app.get('/todo/list', routes.get('todo'));
 
 app.get("/todo/list/:id", routes.get("todo"));
 
@@ -186,8 +186,6 @@ app.get("/contact/info/get", routes.get("contact/getContact"));
 app.post("/contact/info/send", routes.get("contact/contactSend"));
 
 app.get("/main/news", routes.get("mainMenu/getNews"));
-
-/* app.get('/main/search_task', routes.get('mainMenu/taskSearch')); */
 
 //.TODO add comment for task
 //app.post('/todo/comment', userAuth, routes.get('todoUser/comment'))
@@ -239,6 +237,16 @@ app.get("/todo/priorities/get", routes.get("user/getPriorities"));
 app.get("/todo/priorities/list", routes.get("user/listPriorities"));
 
 app.get("/jira", routes.get("JIRA-ENT"));
+
+app.post("/forgot_password", routes.get("users_routes/user/sendConfirmationCode"));
+
+app.post("/verify_password", routes.get("users_routes/user/checkConfirmationCode"));
+
+app.get("/about_us/get_text", routes.get("about_us/getText"));
+
+app.patch("/about_us/update", routes.get("about_us/updateText"));
+
+app.get("/main/search_task", routes.get("mainMenu/taskSearch"));
 
 var server = app.listen(3000, () => {
   console.log("Server listening 127.0.0.1:3000");
