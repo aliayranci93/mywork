@@ -139,7 +139,7 @@ app.patch("/user/update", userAuth, routes.get("user/updateData"));
 app.post("/jira", userAuth, upload.single("file"), routes.get("JIRA-ENT"));
 
 // tasks listAll and list all ıd
-app.get('/todo/list', routes.get('todo'));
+app.get("/todo/list", routes.get("todo"));
 
 app.get("/todo/list/:id", routes.get("todo"));
 
@@ -170,7 +170,7 @@ app.get("/todo/comment", routes.get("comment"));
 app.post("/todo/comment", routes.get("commentTasksAdd"));
 
 //comments delete
-app.delete("/todo/comment/:id", routes.get("commenetDelete"));
+app.delete("/todo/comment/delete/:id", routes.get("commenetDelete"));
 
 //comment update
 app.put("/todo/comment/update/:id", routes.get("commentUpdate"));
@@ -196,7 +196,12 @@ app.post("/main/add_news", routes.get("mainMenu/addNews"));
 //app.patch("/accounts/update",adminAuth, routes.get("admin/updateAccount"));
 
 //Update Account By User
-app.patch("/accounts/update", routes.get("user/updateAccount"));
+app.patch(
+  "/accounts/admin/update",
+  adminAuth,
+  routes.get("user/updateAccount")
+);
+app.patch("/accounts/user/update", userAuth, routes.get("user/updateAccount"));
 
 //Add Status By Admin
 app.post("/todo/status/add", adminAuth, routes.get("admin/addStatus"));
@@ -231,16 +236,22 @@ app.delete(
 app.get("/todo/projects/list", adminAuth, routes.get("admin/listProjects"));
 
 //get Priorities
-app.get("/todo/priorities/get", routes.get("user/getPriorities"));
+app.get("/todo/priorities/get/:id", routes.get("user/getPriorities"));
 
 //list Priorities
 app.get("/todo/priorities/list", routes.get("user/listPriorities"));
 
 app.get("/jira", routes.get("JIRA-ENT"));
 
-app.post("/forgot_password", routes.get("users_routes/user/sendConfirmationCode"));
+app.post(
+  "/forgot_password",
+  routes.get("users_routes/user/sendConfirmationCode")
+);
 
-app.post("/verify_password", routes.get("users_routes/user/checkConfirmationCode"));
+app.post(
+  "/verify_password",
+  routes.get("users_routes/user/checkConfirmationCode")
+);
 
 app.get("/about_us/get_text", routes.get("about_us/getText"));
 

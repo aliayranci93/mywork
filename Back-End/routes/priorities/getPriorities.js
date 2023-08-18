@@ -3,9 +3,10 @@ const { pool, Pool } = require("../../utils/connection.js");
 module.exports = {
   name: "user/getPriorities",
   execute: async (req, res) => {
-    pool.query("SELECT * FROM priorities", (err, results) => {
+    const id = parseInt(req.params.id);
+    pool.query("SELECT * FROM priorities where id=$1", [id], (err, results) => {
       if (err) throw err;
-      res.send(results.rows);
+      res.status(200).json(results.rows);
     });
   },
 };
