@@ -44,5 +44,24 @@ module.exports = {
         res.status(200).send("update account successfully!");
       });
     }
+
+    /*
+    Kodun daha basit ve hızlı çalışacak şekilde hazırlanmış versiyonu.
+    // Önce parametreleri ve sorgu metnini tanımlıyoruz
+    const updateFields = Object.keys(data).filter(key => key !== 'id');
+    console.log("updateFields:"+updateFields);
+    const query = `
+      UPDATE accounts
+      SET ${updateFields.map((field, index) => `${field} = $${index + 2}`).join(', ')}
+      WHERE id = $1
+    `;
+    // Parametreleri düzgün bir şekilde sıralayarak sorguyu çalıştırıyoruz.
+    const queryValues = [req.body.id, ...updateFields.map(key => data[key])];
+    console.log(queryValues);
+    const updatedAccount = await pool.query(query, queryValues);
+
+
+    */
+
   },
 };
