@@ -65,7 +65,7 @@
           <div class="other-buttons">
             <ul class="navbar-nav">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" id="profile-container" href="#">Profile</a>
+                <a class="nav-link active pt-3" aria-current="page" id="profile-container" href="./profile_info.html">Profile</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link active pt-3" aria-current="page" href="about_us.html">About Us</a>
@@ -127,6 +127,7 @@
               <span class="texts">COMMENT</span>
             </div>
           </div>
+          <div class="tasks">
           <div class="task-bars">
             <div class="num-container">
               <span class="nums">#1</span>
@@ -192,10 +193,61 @@
             <div class="status-container">
               <span class="status" style="color: rgba(81, 186, 220, 1);">IN PROGRESS</span>
             </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
 </body>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="./js/functions.js"></script>
+<script>
+
+         $('document').ready(function (){
+  //       //checkToken();
+
+      $.ajax({
+      type:'GET',
+      url:'http://localhost:3000/todo/list',
+      headers:{
+      //   "auth": sessionStorage.getItem('email') + " " + sessionStorage.getItem('token')
+      //           },
+        "auth": "user eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXIiLCJyb2xlIjoiQmFzaWMiLCJpYXQiOjE2OTMyMjc1MDAsImV4cCI6MTY5MzIyODQwMH0.glJUq2io-EPuBVUxAOH-5rBEwv-rO75JfWbAlQcuXj8",
+ "Accept": "*/*"
+},
+
+      success: function(res){
+        debugger;
+          if(!res) return;
+          let table = $('.tasks');
+          table.html('');
+          res.forEach(tasks => {
+              table.append(`\
+                <div class="task-bars">
+                  <div class="num-container">
+                      <span class="nums">${tasks.id}</span>
+                  </div>
+                  <div class="summary-container">
+                      <span class="summary">${tasks.description}</span>
+                  </div>
+                  <div class="status-container">
+                      <span class="status">${tasks.status_id}</span>
+                  </div>
+                </div>
+              </div>
+          
+            `);
+          })
+          return
+          //.num-container
+          //.summary-container
+          //.status-container
+        }
+         })
+    });         
+</script>
 </html>

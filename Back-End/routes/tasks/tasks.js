@@ -9,7 +9,6 @@ module.exports = {
       console.log(err);
       return;
     }
-    console.log("tasks...", result.rows);
     res.send(result.rows);
   });
   }

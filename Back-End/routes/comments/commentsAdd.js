@@ -1,7 +1,7 @@
 const {pool, Pool} = require('../../utils/connection');
 
 module.exports = {
-  name: "commentTasksAdd",
+  name: "commentsAdd",
   execute: async (req, res) => {
     const {task_id ,email, description, time } = req.body;
 try {

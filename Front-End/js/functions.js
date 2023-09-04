@@ -7,7 +7,7 @@ function checkToken(){
         },
         success: function(res){
             if(res.code == -1){
-                window.document.location.href = "../login.html"
+                window.document.location.href = "./login.html"
             }
 
             sessionStorage.setItem('token', res.token)
@@ -47,7 +47,7 @@ async function checkAdmin(){
             },
             success: function(res){
                 if(res.code == -1){
-                    window.document.location.href = "../index.html"
+                    window.document.location.href = "./index.html"
                     reject()
                 }
                 resolve();
