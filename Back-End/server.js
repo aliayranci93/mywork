@@ -139,41 +139,41 @@ app.patch("/user/update", userAuth, routes.get("user/updateData"));
 app.post("/jira", userAuth, upload.single("file"), routes.get("JIRA-ENT"));
 
 // tasks listAll and list all ıd
-app.get('/todo/list',  routes.get('todo'));
+app.get('/todo/list', userAuth, routes.get('todo'));
 
-app.get('/todo/list/:id', routes.get('todo'));
+app.get('/todo/list/:id', userAuth, routes.get('todo/id'));
 
 //create tasks User
-app.post('/todo/create', routes.get('todo/createTask'));
+app.post('/todo/create', userAuth, routes.get('todo/createTask'));
 
 // create tasks Admin
-app.post('/todo/admin/create', routes.get('todoAdmin/createTask'));
+app.post('/todo/admin/create', adminAuth, routes.get('todoAdmin/createTask'));
 
 // delete tasks Admin
-app.delete('/todo/admin/delete/:id', routes.get('todoAdmin/deleteTask'));
+app.delete('/todo/admin/delete/:id', adminAuth, routes.get('todoAdmin/deleteTask'));
 
 // update tasks Admin
-app.put('/todo/admin/update/:id', routes.get('todoAdmin/updateTask'));
+app.put('/todo/admin/update/:id', adminAuth, routes.get('todoAdmin/updateTask'));
 
 // change status
-app.put('/todo/change/status/:id', routes.get('change/status'));
+app.put('/todo/change/status/:id', userAuth, routes.get('change/status'));
 
 // assign task
-app.put('/todo/assign/:id', routes.get('todo/assign'));
+app.put('/todo/assign/:id',userAuth, routes.get('todo/assign'));
 
 //comment
-app.get('/todo/comment', routes.get('comment'));
+app.get('/todo/comment', userAuth, routes.get('comment'));
 
 // comment list 
-app.get('/todo/comment', routes.get('comment'));
+app.get('/todo/comment', userAuth, routes.get('comment'));
 
-app.post('/todo/comment', routes.get('commentTasksAdd'));
+app.post('/todo/comment', userAuth, routes.get('commentsAdd'));
 
 //comments delete
-app.delete('/todo/comment/:id', routes.get('commenetDelete'));
+app.delete('/todo/comment/:id', userAuth, routes.get('commenetDelete'));
 
 //comment update
-app.put('/todo/comment/update/:id', routes.get('commentUpdate'));
+app.put('/todo/comment/update/:id', userAuth, routes.get('commentUpdate'));
 
 app.use(express.static(path.resolve(__dirname + "../../Front-End")));
 
