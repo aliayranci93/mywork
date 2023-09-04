@@ -208,18 +208,14 @@
 <script>
 
          $('document').ready(function (){
-  //       //checkToken();
+        checkToken();
 
       $.ajax({
       type:'GET',
       url:'http://localhost:3000/todo/list',
       headers:{
-      //   "auth": sessionStorage.getItem('email') + " " + sessionStorage.getItem('token')
-      //           },
-        "auth": "user eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXIiLCJyb2xlIjoiQmFzaWMiLCJpYXQiOjE2OTMyMjc1MDAsImV4cCI6MTY5MzIyODQwMH0.glJUq2io-EPuBVUxAOH-5rBEwv-rO75JfWbAlQcuXj8",
- "Accept": "*/*"
-},
-
+        "auth": sessionStorage.getItem('email') + " " + sessionStorage.getItem('token')
+                },
       success: function(res){
         debugger;
           if(!res) return;
