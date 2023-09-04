@@ -9,13 +9,9 @@ module.exports = {
     let result = await pool.query(query, [status_id]);
     if (!result.rowCount) {
       console.log(result.rowCount);
-      console.log("This status are used by users");
-      //res.status(500).send("This status is used by users");
       res.json({ message: "this status is used by users" });
     } else {
       res.json({ message: "status removed successfully" });
     }
   },
 };
-
-// is it using in task, id'den mi çekmeliyiz yoksa name doğru mu //neden res.status(202).send sürekli çalıştı//kimin sildigini tutmaya gerek var mı zaten silindi

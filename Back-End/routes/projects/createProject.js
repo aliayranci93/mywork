@@ -3,14 +3,13 @@ const { pool, Pool } = require("../../utils/connection.js");
 module.exports = {
   name: "admin/createProject",
   execute: async (req, res) => {
-    const { id, name, key } = req.body;
-    let query =
-      "INSERT INTO projects (id,name,key) VALUES ($1,$2,$3) RETURNING *";
+    const { name, key } = req.body;
+    let query = "INSERT INTO projects (name,key) VALUES ($1,$2) RETURNING *";
     try {
-      const result = await pool.query(query, [id, name, key]);
+      const result = await pool.query(query, [name, key]);
       res.json(result.rows);
     } catch (err) {
-      console.error(err);
+      console.error(err.name);
     }
   },
 };
